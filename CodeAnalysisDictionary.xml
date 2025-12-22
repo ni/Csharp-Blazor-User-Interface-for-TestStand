@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+	<Words>
+		<Recognized>
+			<Word>serilog</Word>
+			<Word>uri</Word>
+			<Word>Rpc</Word>
+			<Word>Args</Word>
+			<Word>grpc</Word>
+			<Word>JSRuntime</Word>
+			<Word>Runtime</Word>
+			<Word>Breakpoint</Word>
+		</Recognized>
+	</Words>
+</Dictionary>

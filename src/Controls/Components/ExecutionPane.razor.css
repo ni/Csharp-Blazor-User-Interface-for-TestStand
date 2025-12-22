@@ -1,0 +1,56 @@
+.execution-pane-container {
+    width: min(20%, 280px);
+    margin-left: 0.1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.execution-pane-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--ni-nimble-control-height);
+}
+
+.execution-container {
+    height: 0px;
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
+
+nimble-tree-item::part(content-region) {
+    margin-inline-start: 0px !important;
+    padding: 0px 5px 0px 0px !important;
+}
+
+.bold-text {
+    font-weight: bold;
+    padding-right: 5px;
+}
+
+::deep nimble-toolbar::part(positioning-region) {
+    background: var(--ni-nimble-header-background-color);
+    padding-left: 4px;
+    margin-bottom: 4px;
+    border-radius: 2px;
+}
+
+/*Styling scrollbars*/
+@supports (scrollbar-width: auto) {
+    .execution-container {
+        scrollbar-width: thin;
+        scrollbar-color: var(--ni-nimble-link-active-disabled-font-color) var(--ni-nimble-application-background-color);
+    }
+}
+
+@supports selector(::-webkit-scrollbar) {
+    .execution-container::-webkit-scrollbar-thumb {
+        background-color: var(--ni-nimble-calendar-event-fill-blocked-color);
+        border-radius: 3px;
+    }
+
+    .execution-container::-webkit-scrollbar {
+        width: 7px;
+        border-radius: 3px;
+    }
+}

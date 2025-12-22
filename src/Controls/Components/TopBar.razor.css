@@ -1,0 +1,50 @@
+﻿.navbar {
+    border-bottom: 1px solid gray;
+}
+
+nimble-toolbar::part(positioning-region) {
+    align-items: center;
+}
+
+.divider-vertical {
+    border: 1px solid gray;
+    margin: 5px 0px;
+}
+
+.status-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 10px;
+    border-radius: 2px;
+    font: var(--ni-nimble-table-header-font);
+    background-color: var(--ni-nimble-application-background-color);
+    gap: 5px;
+}
+
+.user-data-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+    .user-data-container > span {
+        color: var(--ni-nimble-button-label-font-color);
+        font: var(--ni-nimble-button-label-font);
+        cursor: default;
+    }
+
+.divider-container {
+    height: 100%;
+    display: flex;
+    padding-left: 0.5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.divider-container .divider-vertical {
+    height: 20px;
+    margin: 0 10px;
+}

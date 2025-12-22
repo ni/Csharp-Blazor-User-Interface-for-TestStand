@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<AssemblyName>NationalInstruments.TestStand.WebOI.SharedDomain</AssemblyName>
+		<RootNamespace>NationalInstruments.TestStand.WebOI.SharedDomain</RootNamespace>
+		<OutputType>Library</OutputType>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" />
+		<PackageReference Include="Grpc.Net.Client" />
+		<PackageReference Include="Grpc.Tools">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Protobuf Include="$(ProtoRoot)\ni\sequencing\v2\sequencing.proto" GrpcServices="Client" ProtoRoot="$(ProtoRoot)" />
+		<Protobuf Include="$(ProtoRoot)\ni\sequencing\v2\sequencing_service_advanced.proto" GrpcServices="Client" ProtoRoot="$(ProtoRoot)" />
+		<Protobuf Include="$(ProtoRoot)\ni\sequencing\v2\user_management_service.proto" GrpcServices="Client" ProtoRoot="$(ProtoRoot)" />
+	</ItemGroup>
+</Project>

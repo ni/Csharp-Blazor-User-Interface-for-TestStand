@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<RootNamespace>NationalInstruments.TestStand.WebOI.UI</RootNamespace>
+		<AssemblyName>NationalInstruments.TestStand.WebOI.UI</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+		<PackageReference Include="Google.Protobuf" />
+		<PackageReference Include="Grpc.Net.Client" />
+		<PackageReference Include="Grpc.Tools">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="NimbleBlazor" />
+		<PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SharedDomain\SharedDomain.csproj" />
+		<ProjectReference Include="..\WebOIUtilities\WebOIUtilities.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+</Project>

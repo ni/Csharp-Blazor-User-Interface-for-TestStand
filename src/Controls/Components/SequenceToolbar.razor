@@ -1,0 +1,25 @@
+﻿<NimbleToolbar>
+    <NimbleTextField id="sequence-name-tag"
+                     Placeholder="@SequenceFileStateService.ActiveSequenceFileName"
+                     TextFieldType="TextFieldType.Text"
+                     Appearance="TextFieldAppearance.Frameless"
+                     ReadOnly="true"
+                     slot="start">
+        <NimbleIconRectangleLines slot="start" />
+    </NimbleTextField>
+    <NimbleTooltip anchor="sequence-name-tag">
+        @SequenceFileStateService.ActiveSequenceFileName
+    </NimbleTooltip>
+    <div class="divider-vertical" slot="start"></div>
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="single-pass-button" ContentHidden="true" slot="start" Disabled="@(_startingExecution || SequenceFileStateService.IsExecuting)" @onclick="SinglePassExecutionAsync">
+        <NimbleIconSkipArrow slot="start" Severity="IconSeverity.Success" style="height: 20px; width:20px" />
+    </NimbleButton>
+    <NimbleTooltip Anchor="single-pass-button">Single Pass</NimbleTooltip>
+    @if (SequenceFileStateService.IsExecuting)
+    {
+        <div class="status-chip" slot="end">
+            <NimbleIconSpinner Severity="IconSeverity.Information" />
+            <span>Executing</span>
+        </div>
+    }
+</NimbleToolbar>

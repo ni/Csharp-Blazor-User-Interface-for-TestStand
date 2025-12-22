@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="NI.CSharp.Analyzers" Version="2.0.27" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="8.0.17" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--NOTE: These dependencies are sourced in ASW. Be sure to select dependency versions built from an ASW release branch -->
+    <PackageVersion Include="NationalInstruments.Service.Extensions" Version="9.16.0.49980" />
+    <PackageVersion Include="NI.Discovery.V1.Client" Version="9.16.0.49981" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="NimbleBlazor" Version="20.1.2" />
+    <PackageVersion Include="Google.Protobuf" Version="3.30.2" />
+    <PackageVersion Include="Grpc.Tools" Version="2.71.0" />
+    <PackageVersion Include="Grpc.Net.Client" Version="2.70.0" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageVersion Include="Serilog.Sinks.Async" Version="2.1.0" />
+    <PackageVersion Include="TestableIO.System.IO.Abstractions.Wrappers" Version="21.3.1" />
+  </ItemGroup>
+</Project>

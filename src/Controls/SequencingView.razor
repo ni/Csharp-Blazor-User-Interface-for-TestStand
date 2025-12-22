@@ -1,0 +1,69 @@
+﻿<NimbleThemeProvider Theme="@ThemeProvider.CurrentTheme">
+    <div class="root @ThemeClass">
+        @if (_connectionStatus is Services.ConnectionStatus.Connected)
+        {
+            <TopBar @ref="_topBarRef" />
+            if (AppStateService.IsSequencePaneOpen)
+            {
+                @if (!SequenceFileStateService.IsFileOpen)
+                {
+                    <div class="default-content">
+                        <div class="add-image-container">
+                            <NimbleIconFile aria-label="SequenceFile" class="fit-container" />
+                        </div>
+                        <p class="default-view-text">No sequence file is open currently</p>
+                        <NimbleButton Appearance="ButtonAppearance.Block" @onclick="BrowseSequenceDialogAsync" Disabled="@(UserStateService.CurrentUser is null)">
+                            <span>Open Sequence File</span>
+                        </NimbleButton>
+                    </div>
+                }
+                else
+                {
+                    <div class="sequencing-view-main">
+                        <SequencePane />
+                        <div class="divider-container">
+                            <div class="divider-vertical"></div>
+                        </div>
+                        <StepsPane />
+                    </div>
+                }
+            }
+            else
+            {
+                if (ExecutionStateService.Executions.Count == 0)
+                {
+                    <div class="default-content">
+                        <div class="add-image-container">
+                            <NimbleIconSpinner aria-label="Execution" class="fit-container" />
+                        </div>
+                        <p class="default-view-text">No executions found</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="sequencing-view-main">
+                        <ExecutionPane />
+                        <div class="divider-container">
+                            <div class="divider-vertical"></div>
+                        </div>
+                        <ExecutionStepsPane />
+                    </div>
+                }
+            }
+        }
+        else if (_connectionStatus is Services.ConnectionStatus.Disconnected)
+        {
+            <NimbleBlazor.NimbleBanner PreventDismiss=true Open=true Severity="NimbleBlazor.BannerSeverity.Error">
+                Failed to connect to the Sequencing Service. Try restarting the application...
+            </NimbleBlazor.NimbleBanner>
+        }
+        else
+        {
+            <div class="spinner-container">
+                <NimbleSpinner Appearance="SpinnerAppearance.Accent" style="height: var(--ni-nimble-spinner-medium-height);" />
+                <div class="spinner-text">Connecting to services...</div>
+            </div>
+        }
+        <ErrorBanner />
+    </div>
+</NimbleThemeProvider>

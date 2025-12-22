@@ -1,0 +1,22 @@
+﻿@namespace NationalInstruments.TestStand.WebOI.WebServer
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="NationalInstruments.TestStand.WebOI.WebServer.styles.css" />
+    <link href="_content/NimbleBlazor/nimble-tokens/css/fonts.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="teststand_64bit.ico" />
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
+    <script src="scripts/renderer.js"></script>
+    <script src="_content/NimbleBlazor/nimble-components/all-components-bundle.min.js"></script>
+</body>
+</html>

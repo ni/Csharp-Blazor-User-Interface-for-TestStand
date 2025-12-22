@@ -1,0 +1,14 @@
+﻿@inherits LayoutComponentBase
+
+<div id="blazor-error-ui">
+    <NimbleBlazor.NimbleBanner PreventDismiss="true" Open="true" Severity="NimbleBlazor.BannerSeverity.Error">
+        The TestStand Web OI encountered an error.
+        <NimbleBlazor.NimbleButton slot="action" Appearance="NimbleBlazor.ButtonAppearance.Outline" @onclick="Refresh">Refresh</NimbleBlazor.NimbleButton>
+    </NimbleBlazor.NimbleBanner>
+</div>
+
+<main>
+    <LoggingErrorBoundary>
+        @Body
+    </LoggingErrorBoundary>
+</main>

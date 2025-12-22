@@ -1,0 +1,18 @@
+﻿<div id="theme-toggle-button" slot="end" @onclick="ToggleThemeAsync">
+    @* Used Placeholder icons for themes, waiting for Nimble Team to Add required icons in the library *@
+    @if (ThemeProvider.CurrentTheme == Theme.Light)
+    {
+        <NimbleButton Appearance="ButtonAppearance.Ghost" style="font-size: 120%;" ContentHidden="true">
+            <img src="icons/DarkMode.svg" slot="start" class="svg-24" />
+        </NimbleButton>
+    }
+    else
+    {
+        <NimbleButton Appearance="ButtonAppearance.Ghost" style="font-size: 120%;" ContentHidden="true">
+            <img src="icons/LightMode.svg" slot="start" class="invert-svg svg-24">
+        </NimbleButton>
+    }
+    <NimbleTooltip anchor="theme-toggle-button">
+        Toggle Theme
+    </NimbleTooltip>
+</div>

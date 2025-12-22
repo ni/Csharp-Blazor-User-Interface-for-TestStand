@@ -1,0 +1,34 @@
+﻿@using NationalInstruments.Sequencing.V2
+@using NationalInstruments.TestStand.WebOI.SharedDomain
+@switch (Status)
+{
+    case SequencingConstants.InitializingStatus:
+        <NimbleIconStar8Point Severity="IconSeverity.Information"></NimbleIconStar8Point>
+        break;
+    case SequencingConstants.RunningStatus:
+    case SequencingConstants.CompletingStatus:
+    case SequencingConstants.AbortingStatus:
+    case SequencingConstants.TerminatingStatus:
+    case SequencingConstants.GeneratingReportStatus:
+        <NimbleSpinner Size="SpinnerSize.Small" Appearance="SpinnerAppearance.Accent"></NimbleSpinner>
+        break;
+    case SequencingConstants.PausedStatus:
+        <NimbleIconPause Severity="IconSeverity.Warning" class="pause-icon"></NimbleIconPause>
+        break;
+    case SequencingConstants.PassedStatus:
+    case SequencingConstants.CompletedStatus:
+        <NimbleIconCircleCheck Severity="IconSeverity.Success"></NimbleIconCircleCheck>
+        break;
+    case SequencingConstants.TerminatedStatus:
+    case SequencingConstants.AbortedStatus:
+        <NimbleIconCircleSlash Severity="IconSeverity.Error"></NimbleIconCircleSlash>
+        break;
+    case SequencingConstants.FailedStatus:
+    case SequencingConstants.ErrorStatus:
+        <NimbleIconCircleX Severity="IconSeverity.Error"></NimbleIconCircleX>
+        break;
+    case "Unspecified":
+    default:
+        <NimbleIconCircleBroken Severity="IconSeverity.Default"></NimbleIconCircleBroken>
+        break;
+}

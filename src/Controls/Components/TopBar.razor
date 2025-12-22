@@ -1,0 +1,127 @@
+﻿<div class="navbar">
+    <NimbleToolbar>
+        <NimbleButton Appearance="ButtonAppearance.Ghost" ContentHidden="true" id="switch-tab" slot="start" @onclick="ToggleViewPane">
+            <NimbleIconTwoSquaresInBrackets slot="start" />
+        </NimbleButton>
+        <NimbleTooltip anchor="switch-tab">
+            Switch Tabs
+        </NimbleTooltip>
+        <NimbleButton Appearance="ButtonAppearance.Ghost" id="file-open-button" ContentHidden="true" slot="start" Disabled="@IsUserNull" @onclick="BrowseSequenceDialogAsync" style=@(IsUserNull ? "cursor : not-allowed;" : "")>
+            <NimbleIconFolderOpen slot="start" />
+        </NimbleButton>
+        @if (IsUserNull is false)
+        {
+            <NimbleTooltip anchor="file-open-button">
+                Open File
+            </NimbleTooltip>
+            @if (SequenceFileStateService.IsFileOpen)
+            {
+                <NimbleButton Appearance="ButtonAppearance.Ghost" ContentHidden="true" id="file-close-button" slot="start" @onclick="CloseSequenceFileAsync" style="padding-top: 2px;">
+                    <img src="icons/CloseFile.svg" slot="start" class="svg-18 invert-svg" />
+                </NimbleButton>
+                <NimbleTooltip anchor="file-close-button">
+                    Close File
+                </NimbleTooltip>
+            }
+            <div class="divider-vertical" slot="start"></div>
+            @if (AppStateService.IsSequencePaneOpen)
+            {
+                <div class="status-chip" slot="start">
+                    <NimbleIconRectangleLines Severity=IconSeverity.Information slot="start"></NimbleIconRectangleLines>
+                    <span>Sequence Files (@(SequenceFileStateService.IsFileOpen ? "1" : "0"))</span>
+                </div>
+            }
+            else
+            {
+                <div class="status-chip" slot="start">
+                    <NimbleIconSpinner Severity=IconSeverity.Information slot="start"></NimbleIconSpinner>
+                    <span>Executions (@_executionCount)</span>
+                </div>
+            }
+        }
+
+        @* User Login Logout Section *@
+        <div slot="end">
+            @if (UserStateService.CurrentUser is not null)
+            {
+                <div class="user-data-container">
+                    <span>
+                        @(string.IsNullOrEmpty(UserStateService.CurrentUser.LoginName) ? UserStateService.CurrentUser.FullName : UserStateService.CurrentUser.LoginName)
+                    </span>
+                    <div class="divider-container">
+                        <div class="divider-vertical"></div>
+                    </div>
+                    @if (_isLoggingOut)
+                    {
+                        <NimbleSpinner Appearance="SpinnerAppearance.Accent" />
+                    }
+                    else
+                    {
+                        <NimbleButton Appearance="ButtonAppearance.Ghost" ContentHidden="true" style="font-size: 120%;" id="logout-button" @onclick="LogoutUserAsync">
+                            <NimbleIconArrowLeftFromLine slot="start" />
+                        </NimbleButton>
+                        <NimbleTooltip anchor="logout-button" slot="start">
+                            Logout
+                        </NimbleTooltip>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="user-data-container">
+                <NimbleButton Appearance="ButtonAppearance.Outline" @onclick="OpenLoginDialogAsync" Disabled="@_isLoggingIn">
+                    Login
+                </NimbleButton>
+                @if (_isLoggingIn)
+                {
+                    <div class="divider-container">
+                        <div class="divider-vertical"></div>
+                    </div>
+                    <NimbleSpinner Appearance="SpinnerAppearance.Accent" />
+                }
+                </div>
+            }
+        </div>
+        <ThemeButton />
+    </NimbleToolbar>
+</div>
+
+<NimbleDialog TCloseReason="@NimbleDialogResult" @ref="@_dialog" @onkeydown="@(async (e) => await OnDialogKeyDownAsync(e, () => CloseDialogAsync(NimbleDialogResult.Open)))">
+    <span slot="title">Open File</span>
+    <span>Specify the path of the sequence file you want to open.</span>
+    <NimbleTextField Placeholder="File path"
+                     type="text"
+                     Appearance="TextFieldAppearance.Underline"
+                     @bind-Value="_newFilePath"
+                     @oninput="OnInputChanged">
+    </NimbleTextField>
+    <span class="failed">@_requiredArgumentErrorMessage</span>
+    <NimbleButton slot="footer" @onclick='() => CloseDialogAsync(NimbleDialogResult.Cancel)'>Cancel</NimbleButton>
+    <NimbleButton slot="footer" @onclick='() => CloseDialogAsync(NimbleDialogResult.Open)'>Open</NimbleButton>
+</NimbleDialog>
+
+<NimbleDialog TCloseReason="@NimbleDialogResult" @ref="@_loginDialog" @onkeydown="@(async (e) => await OnDialogKeyDownAsync(e, async () => await CloseLoginDialogAsync(NimbleDialogResult.Open)))">
+    <span slot="title">Login</span>
+    <NimbleTextField Placeholder="Username"
+                     type="text"
+                     Appearance="TextFieldAppearance.Underline"
+                     @bind-Value="_username"
+                     @oninput="(e) => _username = e.Value?.ToString() ?? string.Empty">
+    </NimbleTextField>
+
+    <NimbleTextField Placeholder="Password"
+                     type="password"
+                     Appearance="TextFieldAppearance.Underline"
+                     @bind-Value="_password"
+                     @oninput="(e) => _password = e.Value?.ToString() ?? string.Empty">
+    </NimbleTextField>
+    <span class="failed">@_loginDialogErrorMessage</span>
+    <NimbleButton slot="footer" @onclick='async () => await CloseLoginDialogAsync(NimbleDialogResult.Cancel)'>Cancel</NimbleButton>
+    <NimbleButton slot="footer" Disabled=@_isLoggingIn @onclick='async () => await CloseLoginDialogAsync(NimbleDialogResult.Open)'>
+        Login
+        @if (_isLoggingIn)
+        {
+            <NimbleSpinner Appearance="SpinnerAppearance.Accent" />
+        }
+    </NimbleButton>
+</NimbleDialog>

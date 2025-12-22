@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package ni.sequencing.v2;
+
+option csharp_namespace = "NationalInstruments.Sequencing.V2";
+option go_package = "sequencingv2";
+option java_multiple_files = true;
+option java_outer_classname = "SequencingServiceProto";
+option java_package = "com.ni.sequencing.v2";
+option objc_class_prefix = "NIS";
+option php_namespace = "NI\\Sequencing\\V2";
+option ruby_package = "NI::Sequencing::V2";
+
+service UserManagementService {
+  // Validates the given username and password and logs in the user.
+  // On successfull validation, returns the current logged in user.
+  // If validation fails, throws RPCException with Unauthenticated status code.
+  rpc Login(LoginRequest) returns (LoginResponse);
+  // Logs out the current logged in user.
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+  // Gets the current logged in user.
+  rpc GetCurrentUser(GetCurrentUserRequest) returns (GetCurrentUserResponse);
+}
+
+message LoginRequest {
+  // The username that the user inputs.
+  string username = 1;
+  // The password that the user inputs.
+  string password = 2;
+}
+
+message LoginResponse {
+  // On successfull validation, returns the current logged in user.
+  User user = 1;
+}
+
+message LogoutRequest {
+}
+
+message LogoutResponse {
+}
+
+message GetCurrentUserRequest {
+}
+
+message GetCurrentUserResponse {
+  User user = 1;
+}
+
+message User {
+  string login_name = 1;
+  string full_name = 2;
+}

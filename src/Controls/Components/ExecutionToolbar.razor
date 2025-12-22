@@ -1,0 +1,110 @@
+﻿<NimbleToolbar>
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="resume-button" ContentHidden="true" slot="start" Disabled="@(!_canResumeExecution)" @onclick="async () => await UpdateExecutionAsync(Sequencing.V2.UpdateExecutionType.Resume)">
+        <NimbleIconPlay slot="start" Severity="IconSeverity.Success" />
+    </NimbleButton>
+    <NimbleTooltip Anchor="resume-button">Resume</NimbleTooltip>
+
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="break-button" ContentHidden="true" slot="start" Disabled="@(!_canBreakExecution)" @onclick="async () => await UpdateExecutionAsync(Sequencing.V2.UpdateExecutionType.Break)">
+        <NimbleIconPause slot="start" Severity="IconSeverity.Default" />
+    </NimbleButton>
+    <NimbleTooltip Anchor="break-button">Break</NimbleTooltip>
+
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="terminate-button" ContentHidden="true" slot="start" Disabled="@(!_canTerminateExecution)" @onclick="async () => await UpdateExecutionAsync(Sequencing.V2.UpdateExecutionType.Terminate)">
+        <NimbleIconStopSquare slot="start" Severity="IconSeverity.Error" />
+    </NimbleButton>
+    <NimbleTooltip Anchor="terminate-button">Terminate</NimbleTooltip>
+
+    <div class="divider-vertical" slot="start"></div>
+
+    @* Icons used for StepInto, StepOver, and StepOut are placeholder icons which will be changed once appropriate icons are added in nimble library *@
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="stepinto-button" ContentHidden="true" slot="start" Disabled="@(!_canResumeExecution)" @onclick="async () => await UpdateExecutionAsync(Sequencing.V2.UpdateExecutionType.StepInto)">
+        <img src="icons/StepInto.svg" slot="start" class="invert-svg svg-20" />
+    </NimbleButton>
+    <NimbleTooltip Anchor="stepinto-button">Step Into</NimbleTooltip>
+
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="stepover-button" ContentHidden="true" slot="start" Disabled="@(!_canResumeExecution)" @onclick="async () => await UpdateExecutionAsync(Sequencing.V2.UpdateExecutionType.StepOver)" style="padding-top: 2px;">
+        <img src="icons/StepOver.svg" slot="start" class="invert-svg svg-20" />
+    </NimbleButton>
+    <NimbleTooltip Anchor="stepover-button">Step Over</NimbleTooltip>
+
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="stepout-button" ContentHidden="true" slot="start" Disabled="@(!_canResumeExecution)" @onclick="async () => await UpdateExecutionAsync(Sequencing.V2.UpdateExecutionType.StepOut)" style="padding-bottom: 2px;">
+        <img src="icons/StepOut.svg" slot="start" class="invert-svg svg-20" />
+    </NimbleButton>
+    <NimbleTooltip Anchor="stepout-button">Step Out</NimbleTooltip>
+
+    @if (_activeExecution?.ExecutionErrors.Count > 1)
+    {
+        <NimbleMenuButton Appearance="ButtonAppearance.Ghost" slot="end" Disabled="@(_activeExecution?.ExecutionErrors.Count <= 0)" ContentHidden="true" Position="MenuButtonPosition.Auto" id="view-errors">
+            <NimbleIconExclamationMark slot="start" Severity="IconSeverity.Error" />
+            View Errors
+            <NimbleMenu slot="menu">
+                @foreach (var error in _activeExecution?.ExecutionErrors ?? [])
+                {
+                    <NimbleMenuItem @onclick="async () => await OpenErrorDialogAsync(error)" id="@error">
+                        @GetTruncatedString($"{error.ErrorCode}: {error.Message}")
+                    </NimbleMenuItem>
+                }
+            </NimbleMenu>
+        </NimbleMenuButton>
+        <NimbleTooltip Anchor="view-errors">View Errors</NimbleTooltip>
+    }
+    else if (_activeExecution?.ExecutionErrors.Count == 1)
+    {
+        <NimbleButton Appearance="ButtonAppearance.Ghost" id="view-single-error-button" ContentHidden="true" slot="end" @onclick="async () => await OpenErrorDialogAsync(_activeExecution.ExecutionErrors[0])">
+            <NimbleIconExclamationMark slot="start" Severity="IconSeverity.Error" />
+        </NimbleButton>
+        <NimbleTooltip Anchor="view-single-error-button">View Error</NimbleTooltip>
+    }
+
+    @if (_activeExecution?.ReportLocations.Count == 1)
+    {
+        <NimbleButton Appearance="ButtonAppearance.Ghost" id="view-single-report-button" Disabled="@(_activeExecution.ReportLocations.Count <= 0)" ContentHidden="true" slot="end" @onclick="async () => await OpenReportAsync(_activeExecution.ReportLocations[0])">
+            <NimbleIconRectangleLines slot="start" />
+            View Report
+        </NimbleButton>
+        <NimbleTooltip Anchor="view-single-report-button">View Report</NimbleTooltip>
+    }
+    else
+    {
+        <NimbleMenuButton Appearance="ButtonAppearance.Ghost" slot="end" Disabled="@(_activeExecution?.ReportLocations.Count <= 0)" ContentHidden="true" Position="MenuButtonPosition.Auto" id="view-reports">
+            <NimbleIconRectangleLines slot="start" />
+            View Reports
+            <NimbleMenu slot="menu">
+                @foreach (var report in _activeExecution?.ReportLocations ?? [])
+                {
+                    <NimbleMenuItem @onclick="async () => await OpenReportAsync(report)" id="@report">
+                        @GetTruncatedString(report)
+                    </NimbleMenuItem>
+                }
+            </NimbleMenu>
+        </NimbleMenuButton>
+        <NimbleTooltip Anchor="view-reports">View Reports</NimbleTooltip>
+    }
+
+    <div class="divider-vertical" slot="end"></div>
+    @if (_activeExecution?.ExecutionTimeInfo?.TotalTime is not null)
+    {
+        <div class="status-chip" slot="end">
+            <NimbleIconClock Severity="IconSeverity.Information"></NimbleIconClock>
+            <span>
+                @if (_activeExecution.ExecutionTimeInfo.TotalTime.ToTimeSpan().Days > 0)
+                {
+                    @_activeExecution.ExecutionTimeInfo.TotalTime.ToTimeSpan().Days
+                    <span> Days </span>
+                }
+                @_activeExecution.ExecutionTimeInfo.TotalTime.ToTimeSpan().ToString(@"hh\:mm\:ss")
+            </span>
+        </div>
+    }
+    <div class="status-chip" slot="end">
+        <ExecutionStatusIcon Status="@(GetStatusString(_activeExecution?.ExecutionResult, _activeExecution?.ExecutionResultErrorMessage, _activeExecution?.ExecutionStatus))" />
+        <span>
+            @(GetStatusString(_activeExecution?.ExecutionResult, _activeExecution?.ExecutionResultErrorMessage, _activeExecution?.ExecutionStatus))
+        </span>
+    </div>
+
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="close-button" ContentHidden="true" slot="end" Disabled="@(!_canCloseExecution)" @onclick="CloseExecution">
+        <NimbleIconXmark slot="start" Severity="IconSeverity.Error"></NimbleIconXmark>
+    </NimbleButton>
+    <NimbleTooltip Anchor="close-button">Close Execution</NimbleTooltip>
+</NimbleToolbar>

@@ -1,0 +1,104 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--ni-nimble-body-emphasized-font-family);
+}
+
+/* Scroll Behaviour */
+.overflow-auto {
+    overflow: auto;
+    scrollbar-color: gray;
+    scrollbar-width: thin;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+nimble-dialog.execution-error-dialog {
+    --ni-nimble-dialog-small-width: 550px;
+}
+
+/* Default Themes */
+.dark-theme {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+.light-theme {
+    --ni-nimble-application-background-color: #FBFBFB;
+    background-color: #FBFBFB;
+    color: #000;
+}
+
+.dark-theme .paused-background nimble-menu {
+    --ni-nimble-application-background-color: #363738;
+}
+
+.light-theme .paused-background nimble-menu {
+    --ni-nimble-application-background-color: #FBFBFB;
+}
+
+.failed, .Failed, .Terminated, .Aborted {
+    color: var(--ni-nimble-fail-color);
+}
+
+.passed, .Passed {
+    color: var(--ni-nimble-pass-color);
+}
+
+body {
+    overflow: hidden; /* Hide scrollbars */
+    margin: 0px;
+}
+
+#components-reconnect-modal {
+    display: none;
+}
+
+    #components-reconnect-modal.components-reconnect-show,
+    #components-reconnect-modal.components-reconnect-failed,
+    #components-reconnect-modal.components-reconnect-rejected {
+        display: block;
+        background-color: #F7F7F7;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        z-index: 1000;
+        padding: 40px;
+    }
+
+div.components-reconnect-error-title {
+    font: var(--ni-nimble-title-plus-1-font);
+    margin-bottom: 20px;
+}
+
+div.components-reconnect-error-subtitle {
+    font: var(--ni-nimble-subtitle-plus-1-font);
+}
+
+.dark-theme .invert-svg {
+    filter: invert(1);
+}
+
+.svg-18 {
+    width: 18px;
+    height: 18px;
+}
+
+.svg-24 {
+    width: 24px;
+    height: 24px;
+}
+
+.svg-20 {
+    width: 20px;
+    height: 20px;
+}
+
+.light-theme .pause-icon {
+    --ni-nimble-warning-color: #E5AC0C !important;
+}

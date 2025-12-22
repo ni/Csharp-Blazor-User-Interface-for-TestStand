@@ -1,0 +1,244 @@
+syntax = "proto3";
+
+package ni.sequencing.v2;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "NationalInstruments.Sequencing.V2";
+option go_package = "sequencingv2";
+option java_multiple_files = true;
+option java_outer_classname = "SequencingServiceProto";
+option java_package = "com.ni.sequencing.v2";
+option objc_class_prefix = "NIS";
+option php_namespace = "NI\\Sequencing\\V2";
+option ruby_package = "NI::Sequencing::V2";
+
+message OpenSequenceFileRequest {
+  // The path to the sequence file to open.
+  // Must be an absolute path.
+  string sequence_file_uri = 1;
+  // The ID of the OS process that is making this call.
+  // When the process exits, the Sequencing Service will close all associated sequences, and shutdown if all sequences are closed.
+  int32 process_id = 2;
+  // Optional metadata about the file. This metadata is not persisted or interpreted by the sequencing service. It is passed to any loaded update handlers.
+  map<string, string> file_metadata = 3;
+  // Information about what step types should be allowed.
+  // Unset value indicates there should be no restriction on what step types are allowed.
+  StepTypeSupportInfo step_type_support_info = 4;
+  // A message to show when the sequence has no steps.
+  EmptySequenceMessage empty_sequence_message = 5;
+}
+
+message OpenSequenceFileResponse {
+  // Unique ID for the sequence file.
+  string sequence_file_id = 1;
+}
+
+message CloseSequenceFileRequest {
+  // Unique ID for the sequence file to be closed.
+  string sequence_file_id = 1;
+}
+
+message CloseSequenceFileResponse {
+}
+
+message ShutdownRequest {
+}
+
+message ShutdownResponse {
+}
+
+message GetIconDataRequest {
+  // Icon name, for which you want the icon value.
+  string icon_name = 1;
+}
+
+message GetIconDataResponse {
+  // Icon value encoded in base64.
+  string icon_base64 = 1;
+}
+
+message StepTypeSupportInfo {
+  // A list of allowed step types.
+  // The sequencing service will also allow the step types that it provides first class support for.
+  repeated string allowed_step_types = 1;
+}
+
+message EmptySequenceMessage {
+  // The title to show with the message 
+  string title = 1;
+  // The message to show when sequence is empty
+  string message_markup = 2;
+}
+
+// An update observed when the execution status of the sequence changes.
+message ExecutionUpdate {
+  // The execution status of the observed sequence.
+  ExecutionStatus execution_status = 1;
+  // An unset value indicates that there is nothing to update about the execution time.
+  // With a set value, only a single field is expected to be set to a non-zero value.
+  ExecutionTimeInfo execution_time_info = 2;
+  // The next step to execute or Unspecified.
+  Step next_step = 3;
+  // The previous step that executed or unset.
+  Step previous_step = 4;
+  // The report directory.
+  string report_directory = 5;
+  // The absolute paths to generated report files.
+  repeated string report_locations = 6;
+}
+
+// An update observed when an error occurs
+message ErrorUpdate {
+  // The step that was being executed or processed when the error occurred. Unset if there is no step that makes sense to associate with the error.
+  Step step = 1;
+  // An error code associated with the error, or 0 if there is not an applicable error code.
+  int32 error_code = 2;
+  // The full call stack associated with the error. Unset for runtime execution errors or if not applicable.
+  string call_stack = 3;
+  // The name of the original RPC that resulted in the error.
+  string rpc_name = 4;
+  // The type name of the caught Exception that lead to the error. Unset if not applicable.
+  string exception_type = 5;
+  // A user-facing message associated with the error.
+  string message = 6;
+  // The sequence name where error occurred.
+  string sequence_name = 7;
+  // The path of sequence file in which error occurred.
+  string sequence_file_uri = 8;
+}
+
+// An update observed when the sequence header content has changed.
+message HeaderUpdate {
+  // The primary name shown in the sequence header (sequence file base name excluding the extension).
+  string header_text = 1;
+  // The secondary header text or Unset
+  string subheader_text = 2;
+}
+
+// An update observed when the sequencer's selection state changes.
+message SelectionUpdate {
+  repeated string selected_step_ids = 1;
+}
+
+enum ExecutionStatus {
+  // The Sequencing Service should only specify this value for an unset ExecutionStatus
+  EXECUTION_STATUS_UNSPECIFIED = 0;
+  // The execution is initializing.
+  EXECUTION_STATUS_INITIALIZING = 1;
+  // The execution is running.
+  EXECUTION_STATUS_RUNNING = 2;
+  // The execution was paued by the user.
+  EXECUTION_STATUS_PAUSED = 3;
+  // The execution is completing.
+  EXECUTION_STATUS_COMPLETING = 4;
+  // The execution is generating a report.
+  EXECUTION_STATUS_GENERATING_REPORT = 5;
+  // The execution completed.
+  EXECUTION_STATUS_COMPLETED = 6;
+  // The execution got a request to terminate and is running cleanup code.
+  EXECUTION_STATUS_TERMINATING = 7;
+  // The execution completed after a request to terminate.
+  EXECUTION_STATUS_TERMINATED = 8;
+    // The execution is aborting.
+  EXECUTION_STATUS_ABORTING = 9;
+  // The execution is aborted.
+  EXECUTION_STATUS_ABORTED = 10;
+}
+
+message ExecutionTimeInfo {
+  // The timestamp, in UTC, when the execution timer should start.
+  google.protobuf.Timestamp start_time = 1;
+  // The timestamp, in UTC, when the execution timer should stop.
+  google.protobuf.Timestamp end_time = 2;
+  // The execution time as presented in the Report. This could be slightly off from the difference between the previously reported start and end times.
+  google.protobuf.Duration total_time = 3;
+}
+
+// Represents a step in a sequence.
+message Step {
+  // A unique ID for the step.
+  string unique_id = 1;
+  // The user-facing index that can be displayed with the step.
+  int32 index = 2;
+  // The user-facing name of the step.
+  string name = 3;
+  // A user-facing description of the step.
+  string description = 4;
+  // Indentation level of the Step
+  int32 block_level = 5;
+  // Unique ID of the block parent of this step, or empty if it's a top-level step.
+  string block_parent_unique_id = 6;
+  // The custom configuration string attached to the step.
+  string custom_step_configuration = 7;
+  // The current edit permissions.
+  StepEditPermissions edit_permissions = 8;
+  // Information about how a step executed.
+  StepExecutionInfo execution_info = 9;
+  // The set of step parameters that are bound to a sequence variable, such as a sweep parameter.
+  repeated BoundParameter bound_parameters = 10;
+  // Icon name for the step.
+  string icon_name = 11;
+  // Step break settings. Unset (field omitted) when no breakpoint info is applicable.
+  StepBreakpointSettings breakpoint_settings = 12;
+}
+
+message StepEditPermissions{
+  // Status of the remove command
+  CommandState remove = 1;
+  // Status of the duplicate command
+  CommandState duplicate = 2;
+  // Status of the step settings command
+  CommandState settings = 3;
+  // Status of the launch step editor command (aka launch panel)
+  CommandState launch_step_editor = 4;
+  // The user-facing label for the command to update the configuration of the step (outside of the sequencer).
+  // Unset or empty if the step does not support such updates.
+  string launch_step_editor_label = 5;
+}
+
+// Information about an executed step
+message StepExecutionInfo
+{
+  // User-facing conditions information for the step.
+  // Expected to include information about input parameter values.
+  string conditions = 1;
+  // The description for an executing or executed step.
+  string description = 2;
+  // How long the step took to execute. Unset if the step has not finished executing.
+  google.protobuf.Duration duration = 3;
+  // Status string of the step. Unset if the step has not finished executing.
+  string result_status = 4;
+}
+
+message BoundParameter {
+  // The name of the parameter.
+  string name = 1;
+}
+
+message StepBreakpointSettings {
+  // Whether the break is enabled.
+  bool is_enabled = 1;
+  // The number of passes to skip before breaking. A value of 0 means to break every time.
+  int32 pass_count = 2;
+  // An expression that must evaluate to true for the break to trigger. An empty string means there is no condition.
+  string condition = 3;
+}
+
+enum CommandState {
+  COMMAND_STATE_UNSPECIFIED = 0;
+  COMMAND_STATE_ENABLED = 1;
+  COMMAND_STATE_DISABLED = 2;
+  COMMAND_STATE_HIDDEN = 3;
+}
+
+enum UpdateExecutionType {
+  UPDATE_EXECUTION_TYPE_UNSPECIFIED = 0;
+  UPDATE_EXECUTION_TYPE_BREAK = 1;
+  UPDATE_EXECUTION_TYPE_RESUME = 2;
+  UPDATE_EXECUTION_TYPE_TERMINATE = 3;
+  UPDATE_EXECUTION_TYPE_STEP_INTO = 4;
+  UPDATE_EXECUTION_TYPE_STEP_OVER = 5;
+  UPDATE_EXECUTION_TYPE_STEP_OUT = 6;
+}

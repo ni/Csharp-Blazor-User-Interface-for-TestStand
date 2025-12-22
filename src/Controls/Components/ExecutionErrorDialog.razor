@@ -1,0 +1,23 @@
+﻿<NimbleDialog @ref="_errorDialog" TCloseReason="NimbleDialogResult" class="execution-error-dialog">
+    <div slot="title" class="dialog-header">
+        <NimbleIconExclamationMark Severity="NimbleBlazor.IconSeverity.Error" class="dialog-header-icon" />
+        <span>Run-Time Error</span>
+    </div>
+    <div>
+        <p class="title">MESSAGE</p>
+        <p class="error-message">@Message</p>
+    </div>
+    <p>
+        <span class="title">ERROR CODE: </span>
+        <span class="failed">@ErrorCode</span>
+    </p>
+    @if (ErrorStep is not null)
+    {
+        <p>
+            <span class="title">STEP: </span>
+            @ErrorStep.Name
+        </p>
+    }
+    <NimbleButton slot="footer" @onclick='() => CloseDialogAsync(NimbleDialogResult.Cancel)'>Close</NimbleButton>
+</NimbleDialog>
+

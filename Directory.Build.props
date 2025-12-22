@@ -1,0 +1,29 @@
+<Project>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<PlatformTarget>x64</PlatformTarget>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		
+		<EnableRoslynAnalyzers>true</EnableRoslynAnalyzers>
+		<EnableNETAnalyzers>false</EnableNETAnalyzers>
+		<NI_EnableAnalyzers>true</NI_EnableAnalyzers>
+		<StyleCopEnabled>$(EnableRoslynAnalyzers)</StyleCopEnabled>
+		<_SkipUpgradeNetAnalyzersNuGetWarning>true</_SkipUpgradeNetAnalyzersNuGetWarning>
+		
+		<NoWarn>CA1848;CA1812</NoWarn>
+		<IsNITestProject Condition="'$(IsNITestProject)' == ''">$([System.Text.RegularExpressions.Regex]::IsMatch($(MSBuildProjectName), '^Tests\.'))</IsNITestProject>
+		<OutputTypeSubDirectory Condition="'$(IsNITestProject)' == 'True'">Tests</OutputTypeSubDirectory>
+		<WorkspaceDirectory>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)))</WorkspaceDirectory>
+		<ProtoRoot>$(WorkspaceDirectory)\Protos</ProtoRoot>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="NI.CSharp.Analyzers" >
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<AdditionalFiles Include="$(MSBuildThisFileDirectory)\CodeAnalysisDictionary.xml" />
+	</ItemGroup>
+</Project>

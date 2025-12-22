@@ -1,0 +1,26 @@
+﻿<div class="steps-pane">
+    <SequenceToolbar />
+    <div class="table-container table-viewport">
+        <NimbleTable TData="StepsRecord" @ref="StepsTable" IdFieldName="UniqueId" style="height:100%" SelectionMode="TableRowSelectionMode.Single" ActionMenuBeforeToggle="@OnActionMenuBeforeToggle">
+            <NimbleTableColumnMapping TKey="string" ColumnId="BreakpointIcon" FieldName="BreakpointIcon" SortingDisabled="true" WidthMode="MappingColumnWidthMode.IconSize">
+                <NimbleMappingIcon TKey="string" Key=@(SharedDomain.BreakpointIcon.Enabled.ToString()) Icon="nimble-icon-circle-filled" Severity="IconSeverity.Error" Text="" />
+                <NimbleMappingIcon TKey="string" Key=@(SharedDomain.BreakpointIcon.Disabled.ToString()) Icon="nimble-icon-circle-filled" Severity="IconSeverity.Default" Text="" />
+                <NimbleMappingIcon TKey="string" Key=@(SharedDomain.BreakpointIcon.Conditional.ToString()) Icon="nimble-icon-circle-filled" Severity="IconSeverity.Warning" Text="" />
+            </NimbleTableColumnMapping>
+            <NimbleTableColumnText ColumnId="Name" FieldName="Name" FractionalWidth="1" SortingDisabled="true" ActionMenuLabel="Step Settings" ActionMenuSlot="step-settings">
+                Name
+            </NimbleTableColumnText>
+            <NimbleTableColumnText ColumnId="Description" FieldName="Description" FractionalWidth="2" SortingDisabled="true">
+                Description
+            </NimbleTableColumnText>
+            <NimbleTableColumnText ColumnId="StepGroup" FieldName="StepGroup" ColumnHidden="true" GroupIndex="0" />
+
+            @* Step Settings Menu *@
+            <NimbleMenu slot="step-settings">
+                <NimbleMenuItem @onchange="@(async() => await ToggleBreakpointAsync())">
+                    @_actionMenuBreakpointText
+                </NimbleMenuItem>
+            </NimbleMenu>
+        </NimbleTable>
+    </div>
+</div>

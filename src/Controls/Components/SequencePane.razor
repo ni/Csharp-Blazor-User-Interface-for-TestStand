@@ -1,0 +1,20 @@
+﻿@using NationalInstruments.Sequencing.V2
+<div class="sequence-pane-container">
+    <NimbleToolbar>
+        <h4 class="sequence-pane-title" >Sequences</h4>
+    </NimbleToolbar>
+    
+    <div class="sequences-container">
+        <NimbleTreeView SelectionMode="SelectionMode.All">
+            @foreach (Sequence sequence in SequenceList)
+            {
+                <nimble-tree-item value=@sequence.SequenceName
+                                  selected=@(string.Equals(SequenceFileStateService.ActiveSequence?.SequenceName, sequence.SequenceName, StringComparison.OrdinalIgnoreCase))
+                                  @onclick="() => SelectSequence(sequence.SequenceName)">
+                    <img src="@GetSequenceIconByType(sequence.SequenceType)" alt="Sequence Icon" slot="start" @onclick="() => SelectSequence(sequence.SequenceName)" />
+                    @sequence.SequenceName
+                </nimble-tree-item>
+            }
+        </NimbleTreeView>
+    </div>
+</div>

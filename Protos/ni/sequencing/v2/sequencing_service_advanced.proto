@@ -1,0 +1,213 @@
+syntax = "proto3";
+
+package ni.sequencing.v2;
+
+import "ni/sequencing/v2/sequencing.proto";
+
+option csharp_namespace = "NationalInstruments.Sequencing.V2";
+option go_package = "sequencingv2";
+option java_multiple_files = true;
+option java_outer_classname = "SequencingServiceProto";
+option java_package = "com.ni.sequencing.v2";
+option objc_class_prefix = "NIS";
+option php_namespace = "NI\\Sequencing\\V2";
+option ruby_package = "NI::Sequencing::V2";
+
+service AdvancedSequencingService {
+  // Open or create a sequence file. Call this to get a sequence file ID to use in other calls.
+  // Status Codes for errors:
+  // - PERMISSION_DENIED: The sequence could not be opened.
+  //   Either the sequence contains unsupported steps, or the active TestStand major version is older than 23.
+  // - INVALID_ARGUMENT: the request includes invalid arguments, with more info in the Detail.
+  rpc OpenSequenceFile(OpenSequenceFileRequest) returns (OpenSequenceFileResponse);
+  // Tell the Sequencing Service that you are done using a sequence file previously opened with an OpenSequenceFile call.
+  rpc CloseSequenceFile(CloseSequenceFileRequest) returns (CloseSequenceFileResponse);
+  // Start observing a sequence file for changes. Returns a stream that will notify about each change with a response.
+  // Note: To guarantee you do not miss any changes that occur due to RPCs you call immediately after obtaining the stream 
+  // from ObserveSequenceFile, first ensure the stream is ready by accessing the response headers from the ObserveSequenceFile call before making a 
+  // subsequent call. For example, in C#, follow your call to var result = Observe() with await result.ResponseHeadersAsync.
+  rpc ObserveSequenceFile(ObserveSequenceFileRequest) returns (stream ObserveSequenceFileResponse);
+  // Start observing the executions started by the engine for updates. Returns a stream that will notify about each update with a response.
+  // Note: To guarantee that you do not miss any execution updates, call this RPC before starting the Execution.
+  rpc ObserveSequenceFileExecution(ObserveSequenceFileExecutionRequest) returns (stream ObserveSequenceFileExecutionResponse);
+  // Shutdown the server process
+  rpc Shutdown(ShutdownRequest) returns (ShutdownResponse);
+
+  // Sequence file Execution
+  // Start a new execution of a sequence file.
+  rpc AdvancedExecuteSequenceFile(AdvancedExecuteSequenceFileRequest) returns (AdvancedExecuteSequenceFileResponse);
+  // Request an update to an active execution.
+  rpc AdvancedUpdateExecution(AdvancedUpdateExecutionRequest) returns (AdvancedUpdateExecutionResponse);
+  // Restarts the completed execution.
+  rpc RestartExecution(RestartExecutionRequest) returns (RestartExecutionResponse);
+  // Close the completed execution by its id.
+  // Note: Call this promptly if you do not plan to call RestartExecution to reduce server memory usage.
+  // Do not close executions you may want to restart later unless you can re-open the original sequence file.
+  // Resources for executions are also released when the originating client process exits.
+  rpc CloseExecution(CloseExecutionRequest) returns (CloseExecutionResponse);
+  // create/modify breakpoints on step
+  rpc CreateOrUpdateBreakpoint(CreateOrUpdateBreakpointRequest) returns (CreateOrUpdateBreakpointResponse);
+  // delete breakpoint on step
+  rpc DeleteBreakpoint(DeleteBreakpointRequest) returns (DeleteBreakpointResponse);
+
+  // Utility
+  // Get Icon data in base64 for a given icon name.
+  rpc GetIconData(GetIconDataRequest) returns (GetIconDataResponse);
+}
+
+message ObserveSequenceFileRequest {
+  // Unique ID for the sequence file to observe.
+  string sequence_file_id = 1;
+}
+
+message ObserveSequenceFileResponse {
+  oneof update {
+    HeaderUpdate header_update = 1;
+    SelectionUpdate selection_update = 2;
+    SequenceFileUpdate sequence_file_update = 3;
+    ErrorUpdate error_update = 4;
+  }
+}
+
+message ObserveSequenceFileExecutionRequest {
+  int32 process_id = 1;
+}
+
+message ObserveSequenceFileExecutionResponse {
+  // Unique ID of the execution that this update belongs to
+  int32 execution_id = 1;
+  oneof update {
+    ExecutionUpdate execution_update = 2;
+    ErrorUpdate error_update = 3;
+    ExecutionStepListUpdate execution_step_list_update = 4;
+    ExecutionResultUpdate execution_result_update = 5;
+  }
+}
+
+message AdvancedExecuteSequenceFileRequest {
+  // Unique ID for the sequence file.
+  string sequence_file_id = 1;
+}
+
+message AdvancedExecuteSequenceFileResponse {
+  // Final execution status, such as "Passed", "Failed"
+  string status = 1;
+  // Error message. Not present if there is no error
+  string error_message = 2;
+  // Error code. Typically the value of Step.Error.Code for the step that generates a runtime error.
+  // If the error originated from within TestStand or from the TestStand API, you can find the error codes at https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tserrors/reftopics/overviewtopic.html
+  int32 error_code = 3;
+  // Unique ID of the execution that this response belongs to.
+  // This ID can be used to correlate this response with the ExecutionUpdate notifications that are sent during the execution.
+  int32 execution_id = 4;
+}
+
+message AdvancedUpdateExecutionRequest {
+  oneof target {
+    // Unique ID for the execution.
+    int32 execution_id = 1;
+    // Process ID to update all executions started by this process.
+    int32 process_id = 2;
+  }
+  // The type of update to request on the execution.
+  UpdateExecutionType update_type = 3;
+}
+
+message AdvancedUpdateExecutionResponse {
+}
+
+message RestartExecutionRequest {
+  // Unique ID for the execution.
+  int32 execution_id = 1;
+  // Unique ID for the process that started the execution.
+  int32 process_id = 2;
+
+}
+
+message RestartExecutionResponse {
+}
+
+message CloseExecutionRequest {
+  // Unique ID for the execution.
+  int32 execution_id = 1;
+  // Unique ID for the process that started the execution.
+  int32 process_id = 2;
+}
+
+message CloseExecutionResponse {
+}
+
+message AdvancedSequenceUpdate {
+  // Steps in setup step group of the selected sequence.
+  repeated Step setup_steps = 1;
+  // Steps in main step group of the selected sequence.
+  repeated Step main_steps = 2;
+  // Steps in cleanup step group of the selected sequence.
+  repeated Step cleanup_steps = 3;
+  // Name of selected sequence.
+  string sequence_name = 4;
+  // Effective type of sequence.
+  SequenceType sequence_type = 5;
+}
+
+message CreateOrUpdateBreakpointRequest {
+  oneof target {
+    // Unique ID for the sequence file.
+    string sequence_file_id = 1;
+    // Unique ID for the execution.
+    int32 execution_id = 2;
+  }
+  // Name of the sequence that contains the step to update.
+  string sequence_name = 3;
+  // Unique ID of the step to update.
+  string step_id = 4;
+  // Options for the breakpoint.
+  StepBreakpointSettings breakpoint_settings = 5;
+}
+
+message CreateOrUpdateBreakpointResponse {
+}
+
+message DeleteBreakpointRequest {
+  oneof target {
+    // Unique ID for the sequence file.
+    string sequence_file_id = 1;
+    // Unique ID for the execution.
+    int32 execution_id = 2;
+  }
+  // Name of the sequence that contains the step to update.
+  string sequence_name = 3;
+  // Unique ID of the step to update.
+  string step_id = 4;
+}
+
+message DeleteBreakpointResponse {
+}
+
+message SequenceFileUpdate {
+  repeated AdvancedSequenceUpdate sequences = 1;
+}
+
+message  ExecutionStepListUpdate {
+  AdvancedSequenceUpdate sequence = 1;
+}
+
+message ExecutionResultUpdate {
+  // Final execution status, such as "Passed", "Failed"
+  string status = 1;
+  // Error message. Not present if there is no error
+  string error_message = 2;
+  // Error code. Typically the value of Step.Error.Code for the step that generates a runtime error.
+  // If the error originated from within TestStand or from the TestStand API, you can find the error codes at https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tserrors/reftopics/overviewtopic.html
+  int32 error_code = 3;
+}
+
+
+enum SequenceType {
+  SEQUENCE_TYPE_UNSPECIFIED = 0;
+  SEQUENCE_TYPE_NORMAL = 1;
+  SEQUENCE_TYPE_CALLBACK = 2;
+  SEQUENCE_TYPE_EXE_ENTRY_POINT = 3;
+  SEQUENCE_TYPE_CFG_ENTRY_POINT = 4;
+  SEQUENCE_TYPE_RESERVED_CALLBACK = 5;
+}

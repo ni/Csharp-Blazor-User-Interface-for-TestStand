@@ -1,0 +1,15 @@
+.divider-vertical {
+    border: 1px solid gray;
+    margin: 5px 0px;
+}
+
+.status-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 10px;
+    border-radius: 2px;
+    font: var(--ni-nimble-table-header-font);
+    background-color: var(--ni-nimble-application-background-color);
+    gap: 5px;
+}

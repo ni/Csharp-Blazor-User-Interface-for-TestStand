@@ -1,0 +1,69 @@
+.toolbox-icon {
+    cursor: pointer;
+}
+
+.steps-pane {
+    width: 100%;
+    height: 100%;
+    padding: 0px 5px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding-bottom: 3px;
+}
+
+::deep .steps-pane-body-text {
+    padding: 15px;
+}
+
+.table-container {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    box-sizing: border-box;
+    margin-bottom: 2px;
+    --ni-nimble-icon-size: 18px;
+}
+
+.completed-background {
+    --ni-nimble-application-background-color: var(--ni-nimble-calendar-event-fill-blocked-color)
+}
+
+.dark-theme .paused-background {
+    --ni-nimble-application-background-color: #4D4837;
+}
+
+.light-theme .paused-background {
+    --ni-nimble-application-background-color: #FFFCE9;
+}
+
+.light-theme .table-container {
+    --ni-nimble-warning-color: #E5AC0C;
+}
+
+::deep nimble-toolbar::part(positioning-region) {
+    background: var(--ni-nimble-header-background-color);
+    padding-left: 4px;
+    margin-bottom: 4px;
+    border-radius: 2px;
+}
+
+/*Styling scrollbars*/
+@supports (scrollbar-width: auto) {
+    .table-viewport {
+        scrollbar-width: thin;
+        scrollbar-color: var(--ni-nimble-link-active-disabled-font-color) var(--ni-nimble-application-background-color) !important;
+    }
+}
+
+@supports selector(::-webkit-scrollbar) {
+    .table-viewport::-webkit-scrollbar-thumb {
+        background-color: var(--ni-nimble-calendar-event-fill-blocked-color) !important;
+        border-radius: 3px;
+    }
+
+    .table-viewport::-webkit-scrollbar {
+        width: 7px;
+        border-radius: 3px;
+    }
+}

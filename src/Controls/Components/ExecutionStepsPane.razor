@@ -1,0 +1,54 @@
+﻿@using NationalInstruments.TestStand.WebOI.SharedDomain
+<div class="steps-pane">
+    @if (_activeExecution is not null)
+    {
+        <ExecutionToolbar />
+        <div class="table-container table-viewport @TableBackgroundCss">
+            <NimbleTable TData="ExecutionStepsRecord" @ref="StepsTable" IdFieldName="UniqueId" style="height:100%" SelectionMode="TableRowSelectionMode.Single" ActionMenuBeforeToggle="@OnActionMenuBeforeToggle">
+                <NimbleTableColumnMapping TKey="bool" ColumnId="IsActiveStep" FieldName="IsActiveStep" SortingDisabled="true" WidthMode="MappingColumnWidthMode.IconSize">
+                    <NimbleMappingIcon TKey="bool" Key=@(true) Icon="nimble-icon-arrow-right-thin" Severity="IconSeverity.Warning" Text="" class="icon-size"/>
+                </NimbleTableColumnMapping>
+                <NimbleTableColumnMapping TKey="string" ColumnId="BreakpointIcon" FieldName="BreakpointIcon" SortingDisabled="true" WidthMode="MappingColumnWidthMode.IconSize">
+                    <NimbleMappingIcon TKey="string" Key=@(SharedDomain.BreakpointIcon.Enabled.ToString()) Icon="nimble-icon-circle-filled" Severity="IconSeverity.Error" Text="" />
+                    <NimbleMappingIcon TKey="string" Key=@(SharedDomain.BreakpointIcon.Disabled.ToString()) Icon="nimble-icon-circle-filled" Severity="IconSeverity.Default" Text="" />
+                    <NimbleMappingIcon TKey="string" Key=@(SharedDomain.BreakpointIcon.Conditional.ToString()) Icon="nimble-icon-circle-filled" Severity="IconSeverity.Warning" Text="" />
+                </NimbleTableColumnMapping>
+                <NimbleTableColumnText ColumnId="Name" FieldName="Name" FractionalWidth="2" SortingDisabled="true" ActionMenuLabel="Step Settings" ActionMenuSlot="@((_activeExecution.ExecutionStatus.ToString() == SequencingConstants.PausedStatus) ? "step-settings" : null)">
+                    Name
+                </NimbleTableColumnText>
+                <NimbleTableColumnText ColumnId="Description" FieldName="Description" FractionalWidth="4" SortingDisabled="true">
+                    Description
+                </NimbleTableColumnText>
+                <NimbleTableColumnText ColumnId="StepGroup" FieldName="StepGroup" ColumnHidden="true" GroupIndex="0" />
+                <NimbleTableColumnMapping ColumnId="ExecutionIcon" FieldName="ExecutionIcon" SortingDisabled="true" TKey="String" WidthMode="MappingColumnWidthMode.IconSize">
+                    <NimbleIconCircleBroken title="status" />
+                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.PassedStatus) Icon="nimble-icon-check" Severity="IconSeverity.Success" Text=@(SequencingConstants.PassedStatus) />
+                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.FailedStatus) Icon="nimble-icon-xmark" Severity="IconSeverity.Error" Text=@(SequencingConstants.FailedStatus) />
+                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.ErrorStatus) Icon="nimble-icon-xmark" Severity="IconSeverity.Error" Text=@(SequencingConstants.ErrorStatus) />
+                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.DoneStatus) Icon="nimble-icon-check-dot" Severity="IconSeverity.Information" Text=@(SequencingConstants.DoneStatus) />
+                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.SkippedStatus) Icon="nimble-icon-circle-filled" Severity="IconSeverity.Default" Text=@(SequencingConstants.SkippedStatus) />
+                    <NimbleMappingSpinner TKey="String" Key=@(SequencingConstants.RunningStatus) Text=@(SequencingConstants.RunningStatus)></NimbleMappingSpinner>
+                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.PausedStatus) Icon="nimble-icon-pause" Severity="IconSeverity.Warning" Text=@(SequencingConstants.PausedStatus) />
+                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.TerminatedStatus) Icon="nimble-icon-circle-slash" Severity="IconSeverity.Error" Text=@(SequencingConstants.TerminatedStatus) />
+                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.AbortedStatus) Icon="nimble-icon-circle-slash" Severity="IconSeverity.Default" Text=@(SequencingConstants.AbortedStatus) />
+                    <NimbleMappingIcon TKey="String" Key=@("Custom") Icon="nimble-icon-circle" Severity="IconSeverity.Default" Text="Unknown" />
+                </NimbleTableColumnMapping>
+                <NimbleTableColumnText ColumnId="ExecutionStatus" FieldName="ExecutionStatus" FractionalWidth="1" SortingDisabled="true">
+                    Status
+                </NimbleTableColumnText>
+
+                @* Step Settings Menu *@
+                <NimbleMenu slot="step-settings">
+                    <NimbleMenuItem @onchange="@(async () => await ToggleBreakpointAsync())">
+                        @_actionMenuBreakpointText
+                    </NimbleMenuItem>
+                </NimbleMenu>
+            </NimbleTable>
+        </div>
+        <ExecutionErrorDialog />
+    }
+    else
+    {
+        <p class="steps-pane-body-text">There is no selected execution...</p>
+    }
+</div>

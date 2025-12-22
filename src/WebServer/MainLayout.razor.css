@@ -1,0 +1,6 @@
+#blazor-error-ui {
+    display: none;
+    bottom: 0;
+    position: fixed;
+    z-index: 1000;
+}

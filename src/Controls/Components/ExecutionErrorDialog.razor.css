@@ -1,0 +1,41 @@
+﻿.title {
+    font-weight: bold;
+}
+
+.dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+
+.dialog-header-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.error-message {
+    width: 100%;
+    max-height: 300px;
+    overflow: auto;
+}
+
+/*Styling scrollbars*/
+@supports (scrollbar-width: auto) {
+    .error-message {
+        scrollbar-width: thin;
+        scrollbar-color: var(--ni-nimble-link-active-disabled-font-color) var(--ni-nimble-application-background-color);
+    }
+}
+
+@supports selector(::-webkit-scrollbar) {
+    .error-message::-webkit-scrollbar-thumb {
+        background-color: var(--ni-nimble-calendar-event-fill-blocked-color);
+        border-radius: 3px;
+    }
+
+    .error-message::-webkit-scrollbar {
+        width: 7px;
+        border-radius: 3px;
+    }
+}

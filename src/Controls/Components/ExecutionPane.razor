@@ -1,0 +1,23 @@
+﻿<div class="execution-pane-container">
+    <NimbleToolbar>
+        <h4 class="execution-pane-title">Executions</h4>
+    </NimbleToolbar>
+    <div class="execution-container">
+        <NimbleTreeView SelectionMode="SelectionMode.All">
+            @foreach (Execution execution in ExecutionList)
+            {
+                <nimble-tree-item value=@execution.ExecutionId
+                                  selected=@(ExecutionStateService.ActiveExecution?.ExecutionId == execution.ExecutionId)
+                                  @onclick="() => SelectExecution(execution.ExecutionId)">
+                    <div slot="start">
+                        <ExecutionStatusIcon Status="@(GetStatusString(execution.ExecutionResult, execution.ExecutionResultErrorMessage, execution.ExecutionStatus))" />
+                    </div>
+                    <span class="bold-text">[@execution.ExecutionId]</span>
+                    <span>@GetTruncatedExecutionSequenceName(execution.ExecutionSequence?.SequenceName)</span>
+                    &nbsp; -&nbsp;
+                    (@(GetStatusString(execution.ExecutionResult, execution.ExecutionResultErrorMessage, execution.ExecutionStatus)))
+                </nimble-tree-item>
+            }
+        </NimbleTreeView>
+    </div>
+</div>
