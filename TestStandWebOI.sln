@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CodeAnalysisDictionary.xml = CodeAnalysisDictionary.xml
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
-		InstallForTests.targets = InstallForTests.targets
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "src\Controls\Controls.csproj", "{F52183DE-708C-4ABC-A118-5A875E89E9BE}"
