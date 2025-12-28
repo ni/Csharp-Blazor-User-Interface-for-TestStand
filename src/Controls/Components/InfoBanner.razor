@@ -1,0 +1,13 @@
+<NimbleBlazor.NimbleBanner PreventDismiss="false" Open="@Open" Severity="NimbleBlazor.BannerSeverity.Information" Toggle="@(() => Open = !Open)">
+    @Message
+    @if (!string.IsNullOrEmpty(FilePath))
+    {
+        <NimbleButton slot="action"
+                      Appearance="NimbleBlazor.ButtonAppearance.Ghost"
+                      ContentHidden="true"
+                      @onclick="CopyPathToClipboardAsync">
+            <NimbleIconCopyText slot="start" id="copy-icon"/>
+        </NimbleButton>
+        <NimbleTooltip Anchor="copy-icon">Copy Path</NimbleTooltip>
+    }
+</NimbleBlazor.NimbleBanner>

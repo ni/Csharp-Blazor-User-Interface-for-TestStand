@@ -30,6 +30,8 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
 
         void UpdateErrorState(ErrorUpdate errorUpdate);
 
+        void UpdateProcessModelEntryPoints(ProcessModelEntryPointsUpdate processModelEntryPointsUpdate);
+
         event EventHandler? OnFileOpeningClosing;
 
         event EventHandler? OnSequenceFileNameUpdate;
@@ -39,6 +41,8 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
         event EventHandler? OnSequenceFileChange;
 
         event EventHandler? OnSequenceFileExecutionStateChange;
+
+        event EventHandler? OnProcessModelEntryPointsUpdate;
 
         event EventHandler<InvokeErrorBannerEventArgs>? OnInvokeErrorBanner;
     }

@@ -8,6 +8,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
 
         public event EventHandler<bool>? OnTogglePane;
         public event EventHandler<InvokeErrorBannerEventArgs>? OnInvokeErrorBanner;
+        public event EventHandler<InvokeInfoBannerEventArgs>? OnInvokeInfoBanner;
 
         public bool IsSequencePaneOpen
         {
@@ -22,6 +23,11 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
         public void InvokeErrorBanner(string message)
         {
             OnInvokeErrorBanner?.Invoke(this, new InvokeErrorBannerEventArgs(message));
+        }
+
+        public void InvokeInfoBanner(string message, string? filePath = null)
+        {
+            OnInvokeInfoBanner?.Invoke(this, new InvokeInfoBannerEventArgs(message, filePath));
         }
     }
 }

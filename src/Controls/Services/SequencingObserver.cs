@@ -263,6 +263,9 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
                 case ObserveSequenceFileResponse.UpdateOneofCase.SequenceFileUpdate:
                     HandleSequenceFileUpdate(message.SequenceFileUpdate);
                     break;
+                case ObserveSequenceFileResponse.UpdateOneofCase.ProcessModelEntryPointsUpdate:
+                    HandleProcessModelEntryPointsUpdate(message.ProcessModelEntryPointsUpdate);
+                    break;
                 case ObserveSequenceFileResponse.UpdateOneofCase.SelectionUpdate:
                 case ObserveSequenceFileResponse.UpdateOneofCase.None:
                 default:
@@ -323,6 +326,14 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
             if (headerUpdate != null)
             {
                 sequenceFileStateService.UpdateHeaderState(headerUpdate);
+            }
+        }
+
+        private void HandleProcessModelEntryPointsUpdate(ProcessModelEntryPointsUpdate processModelEntryPointsUpdate)
+        {
+            if (processModelEntryPointsUpdate != null)
+            {
+                sequenceFileStateService.UpdateProcessModelEntryPoints(processModelEntryPointsUpdate);
             }
         }
 

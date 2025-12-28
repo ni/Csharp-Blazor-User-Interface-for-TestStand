@@ -31,11 +31,17 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
         /// <inheritdoc cref="AdvancedSequencingService.AdvancedSequencingServiceClient.AdvancedUpdateExecutionAsync" />
         Task<AdvancedUpdateExecutionResponse> AdvancedUpdateExecutionAsync(AdvancedUpdateExecutionRequest request);
 
+        /// <inheritdoc cref="AdvancedSequencingService.AdvancedSequencingServiceClient.RestartExecutionAsync"/>
+        Task<RestartExecutionResponse> RestartExecutionAsync(RestartExecutionRequest request);
+
         /// <inheritdoc cref="AdvancedSequencingService.AdvancedSequencingServiceClient.CreateOrUpdateBreakpointAsync" />
         Task<CreateOrUpdateBreakpointResponse> CreateOrUpdateBreakpointAsync(CreateOrUpdateBreakpointRequest request);
 
         /// <inheritdoc cref="AdvancedSequencingService.AdvancedSequencingServiceClient.DeleteBreakpointAsync" />
         Task<DeleteBreakpointResponse> DeleteBreakpointAsync(DeleteBreakpointRequest request);
+
+        /// <inheritdoc cref="AdvancedSequencingService.AdvancedSequencingServiceClient.CloseExecutionAsync" />
+        Task<CloseExecutionResponse> CloseExecutionAsync(CloseExecutionRequest request);
 
         /// <summary>
         /// Event invoked when an <see cref="RpcException"/> is caught during an RPC.

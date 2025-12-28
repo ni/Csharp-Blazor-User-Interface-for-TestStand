@@ -15,7 +15,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
 
         void SelectActiveExecution(int execution_id);
 
-        void CloseExecution(int execution_id);
+        Task CloseExecutionAsync(int execution_id);
 
         Task CleanupAllExecutionsAsync();
 

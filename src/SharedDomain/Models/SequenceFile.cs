@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using NationalInstruments.Sequencing.V2;
 
 namespace NationalInstruments.TestStand.WebOI.SharedDomain.Models
 {
@@ -26,5 +27,15 @@ namespace NationalInstruments.TestStand.WebOI.SharedDomain.Models
         /// The active sequence object.
         /// </summary>
         public Sequence? ActiveSequence { get; set; }
+
+        /// <summary>
+        /// The applicable entry points for this sequence file, based on its associated process model.
+        /// </summary>
+        public Collection<EntryPointInfo> EntryPoints { get; set; } = [];
+
+        /// <summary>
+        /// Represents the name of the process model associated with this sequence file.
+        /// </summary>
+        public string ProcessModelName { get; set; } = string.Empty;
     }
 }

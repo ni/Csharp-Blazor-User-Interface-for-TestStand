@@ -26,16 +26,24 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
         private IJSRuntime JSRuntime { get; set; } = null!;
 
         [Inject]
+        private ThemeProvider ThemeProvider { get; set; } = null!;
+
+        [Inject]
         private ILogger<ExecutionToolbar> Logger { get; set; } = null!;
 
         private EventHandler<ExecutionStatusEventArgs>? _executionStatusChangedHandler;
         private EventHandler? _activeExecutionChangeHandler;
         private EventHandler<ExecutionResultUpdateEventArgs>? _executionResultUpdateHandler;
+        private EventHandler? _onThemeChanged;
 
         private Execution? _activeExecution;
+        private bool _isExecutionCompleted;
         private bool _canTerminateExecution;
         private bool _canBreakExecution;
         private bool _canResumeExecution;
+        private bool _canTerminateAllExecution;
+        private bool _canBreakAllExecution;
+        private bool _canResumeAllExecution;
         private bool _canCloseExecution;
         private const int _maxReportLength = 100;      // Only truncate if report path is longer than this
         private const int _prefixLength = 45;          // Keep first 45 characters
@@ -45,12 +53,14 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
         protected override async Task OnInitializedAsync()
         {
             _activeExecution = ExecutionStateService.ActiveExecution;
+            _onThemeChanged = async (s, e) => await InvokeAsync(StateHasChanged);
             _executionStatusChangedHandler = async (s, e) => await UpdateIconStatesAsync(e);
             _activeExecutionChangeHandler = async (s, e) => await HandleActiveExecutionChangeAsync();
             _executionResultUpdateHandler = async (s, e) => await HandleExecutionResultUpdateAsync(e);
             ExecutionStateService.OnExecutionStatusChange += _executionStatusChangedHandler;
             ExecutionStateService.OnActiveExecutionChange += _activeExecutionChangeHandler;
             ExecutionStateService.OnExecutionResultUpdate += _executionResultUpdateHandler;
+            ThemeProvider.OnChange += _onThemeChanged;
             if (_activeExecution != null)
             {
                 await UpdateIconStatesAsync(new ExecutionStatusEventArgs(
@@ -98,9 +108,25 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             {
                 _canResumeExecution = e.Status is ExecutionStatus.Paused;
                 _canBreakExecution = e.Status is ExecutionStatus.Running;
-                _canTerminateExecution = e.Status is ExecutionStatus.Running or ExecutionStatus.Paused;
+                _canTerminateExecution = _canResumeExecution || _canBreakExecution;
+                _isExecutionCompleted = e.Status is ExecutionStatus.Completed or ExecutionStatus.Terminated or ExecutionStatus.Aborted;
                 _canCloseExecution = e.Status is ExecutionStatus.Completed or ExecutionStatus.Aborted or ExecutionStatus.Terminated;
+                _canResumeAllExecution = ExecutionStateService.Executions.Any(exec => exec.ExecutionStatus is ExecutionStatus.Paused);
+                _canBreakAllExecution = ExecutionStateService.Executions.Any(exec => exec.ExecutionStatus is ExecutionStatus.Running);
+                _canTerminateAllExecution = _canResumeAllExecution || _canBreakAllExecution;
                 await InvokeAsync(StateHasChanged);
+            }
+        }
+
+        private async Task RestartExecutionAsync()
+        {
+            if (_activeExecution is not null)
+            {
+                RestartExecutionRequest request = new()
+                {
+                    ExecutionId = _activeExecution.ExecutionId
+                };
+                _ = await SequencingClient.RestartExecutionAsync(request);
             }
         }
 
@@ -117,11 +143,20 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             }
         }
 
-        private void CloseExecution()
+        private async Task UpdateAllExecutionAsync(UpdateExecutionType updateType)
+        {
+            AdvancedUpdateExecutionRequest request = new()
+            {
+                UpdateType = updateType
+            };
+            _ = await SequencingClient.AdvancedUpdateExecutionAsync(request);
+        }
+
+        private async Task CloseExecutionAsync()
         {
             if (_activeExecution is not null)
             {
-                ExecutionStateService.CloseExecution(_activeExecution.ExecutionId);
+                await ExecutionStateService.CloseExecutionAsync(_activeExecution.ExecutionId);
             }
         }
 
@@ -146,7 +181,9 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Failed to open report file: {FilePath}. {Message}", path, ex.Message);
-                AppStateService.InvokeErrorBanner($"Failed to open report file: {path}. See logs for more info.");
+                AppStateService.InvokeInfoBanner(
+                    $"Cannot open report from external application. Please manually open from: {path}",
+                    path);
             }
         }
 
@@ -176,6 +213,11 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             {
                 ExecutionStateService.OnExecutionResultUpdate -= _executionResultUpdateHandler;
                 _executionResultUpdateHandler = null;
+            }
+            if (_onThemeChanged != null)
+            {
+                ThemeProvider.OnChange -= _onThemeChanged;
+                _onThemeChanged = null;
             }
         }
     }

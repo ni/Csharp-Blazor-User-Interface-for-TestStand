@@ -6,7 +6,7 @@ using NationalInstruments.TestStand.WebOI.UI.Services.Events;
 
 namespace NationalInstruments.TestStand.WebOI.UI.Services
 {
-    internal sealed class ExecutionStateService(IAppStateService appStateService, ILogger<ExecutionStateService> logger) : IExecutionStateService
+    internal sealed class ExecutionStateService(IAppStateService appStateService, ILogger<ExecutionStateService> logger, ISequencingServiceClient sequencingServiceClient) : IExecutionStateService
     {
         private readonly ConcurrentDictionary<int, Execution> _executions = [];
         private int _activeExecutionId = -1;
@@ -51,9 +51,14 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
             OnActiveExecutionChange?.Invoke(this, EventArgs.Empty);
         }
 
-        public void CloseExecution(int executionId)
+        public async Task CloseExecutionAsync(int executionId)
         {
             bool activeExecutionClosed = false;
+            CloseExecutionRequest request = new()
+            {
+                ExecutionId = executionId
+            };
+            _ = await sequencingServiceClient.CloseExecutionAsync(request);
             lock (_executionStateLock)
             {
                 _ = _executions.TryRemove(executionId, out _);
@@ -72,13 +77,16 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
 
         public async Task CleanupAllExecutionsAsync()
         {
-            lock (_executionStateLock)
+            _executions.Keys.ToList().ForEach(async executionId =>
             {
-                // Todo: Terminate all executions using its id.
-                // Dependent on sequence service update to support updating executions using executionId instead of sequencefileId.
-                _executions.Clear();
-            }
-            OnExecutionListChange?.Invoke(this, EventArgs.Empty);
+                if (_executions.TryGetValue(executionId, out Execution? execution))
+                {
+                    if (execution.ExecutionStatus is ExecutionStatus.Completed or ExecutionStatus.Aborted or ExecutionStatus.Terminated)
+                    {
+                        await CloseExecutionAsync(executionId);
+                    }
+                }
+            });
         }
 
         public void UpdateExecutionStepList(int executionId, ExecutionStepListUpdate executionStepListUpdate)
@@ -91,11 +99,25 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
                 CleanupSteps = [.. executionStepListUpdate.Sequence.CleanupSteps]
             };
             bool activeExecutionUpdated = false;
+            bool executionListChanged = false;
+            bool activeExecutionChanged = false;
             lock (_executionStateLock)
             {
                 if (_executions.TryGetValue(executionId, out Execution? execution))
                 {
                     execution.ExecutionSequence = sequence;
+                }
+                else
+                {
+                    _executions[executionId] = new Execution
+                    {
+                        ExecutionId = executionId,
+                        ExecutionStatus = ExecutionStatus.Initializing,
+                        ExecutionSequence = sequence
+                    };
+                    executionListChanged = true;
+                    _activeExecutionId = executionId;
+                    activeExecutionChanged = true;
                 }
                 if (_activeExecutionId == executionId)
                 {
@@ -105,6 +127,15 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
             if (activeExecutionUpdated)
             {
                 OnExecutionSequenceChange?.Invoke(this, new ExecutionSequenceEventArgs(executionId, sequence));
+            }
+            if (executionListChanged)
+            {
+                OnExecutionListChange?.Invoke(this, EventArgs.Empty);
+            }
+            if (activeExecutionChanged)
+            {
+                OnActiveExecutionChange?.Invoke(this, EventArgs.Empty);
+                appStateService.IsSequencePaneOpen = false;
             }
         }
 
@@ -161,18 +192,25 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
             {
                 if (executionUpdate.ExecutionStatus is ExecutionStatus.Initializing)
                 {
-                    if (_executions.ContainsKey(executionId))
+                    if (_executions.TryGetValue(executionId, out Execution? exec))
                     {
-                        return;
+                        exec.ExecutionStatus = ExecutionStatus.Initializing;
+                        exec.ExecutionResult = string.Empty;
+                        exec.ExecutionErrors.Clear();
+                        exec.ReportLocations.Clear();
+                        executionStatusChanged = true;
                     }
-                    _executions[executionId] = new Execution
+                    else
                     {
-                        ExecutionId = executionId,
-                        ExecutionStatus = ExecutionStatus.Initializing,
-                    };
-                    executionListChanged = true;
-                    _activeExecutionId = executionId;
-                    activeExecutionChanged = true;
+                        _executions[executionId] = new Execution
+                        {
+                            ExecutionId = executionId,
+                            ExecutionStatus = ExecutionStatus.Initializing,
+                        };
+                        executionListChanged = true;
+                        _activeExecutionId = executionId;
+                        activeExecutionChanged = true;
+                    }
                 }
                 else if (_executions.TryGetValue(executionId, out Execution? execution))
                 {

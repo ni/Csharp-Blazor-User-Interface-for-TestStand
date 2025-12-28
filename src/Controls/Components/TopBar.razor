@@ -1,11 +1,16 @@
 ﻿<div class="navbar">
     <NimbleToolbar>
-        <NimbleButton Appearance="ButtonAppearance.Ghost" ContentHidden="true" id="switch-tab" slot="start" @onclick="ToggleViewPane">
-            <NimbleIconTwoSquaresInBrackets slot="start" />
-        </NimbleButton>
-        <NimbleTooltip anchor="switch-tab">
-            Switch Tabs
-        </NimbleTooltip>
+        <NimbleTabs ActiveId=@(AppStateService.IsSequencePaneOpen ? "sequences" : "executions")  slot="start" @onchange="ToggleViewPane">
+            <NimbleTab id="sequences">
+                Sequences
+            </NimbleTab>
+            <NimbleTab id="executions">
+                Executions
+            </NimbleTab>
+            <NimbleTabPanel/>
+            <NimbleTabPanel/>
+        </NimbleTabs>
+        
         <NimbleButton Appearance="ButtonAppearance.Ghost" id="file-open-button" ContentHidden="true" slot="start" Disabled="@IsUserNull" @onclick="BrowseSequenceDialogAsync" style=@(IsUserNull ? "cursor : not-allowed;" : "")>
             <NimbleIconFolderOpen slot="start" />
         </NimbleButton>
@@ -28,7 +33,7 @@
             {
                 <div class="status-chip" slot="start">
                     <NimbleIconRectangleLines Severity=IconSeverity.Information slot="start"></NimbleIconRectangleLines>
-                    <span>Sequence Files (@(SequenceFileStateService.IsFileOpen ? "1" : "0"))</span>
+                    <span>Sequence File</span>
                 </div>
             }
             else

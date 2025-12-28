@@ -58,7 +58,17 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
 
         public async Task<AdvancedUpdateExecutionResponse> AdvancedUpdateExecutionAsync(AdvancedUpdateExecutionRequest request)
         {
+            if (request.TargetCase != AdvancedUpdateExecutionRequest.TargetOneofCase.ExecutionId)
+            {
+                request.ProcessId = Environment.ProcessId;
+            }
             return await CallRpcAsync(_client!.AdvancedUpdateExecutionAsync, request);
+        }
+
+        public async Task<RestartExecutionResponse> RestartExecutionAsync(RestartExecutionRequest request)
+        {
+            request.ProcessId = Environment.ProcessId;
+            return await CallRpcAsync(_client!.RestartExecutionAsync, request);
         }
 
         public async Task<CreateOrUpdateBreakpointResponse> CreateOrUpdateBreakpointAsync(CreateOrUpdateBreakpointRequest request)
@@ -135,6 +145,12 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
                 }
             }
             call.Dispose();
+        }
+
+        public async Task<CloseExecutionResponse> CloseExecutionAsync(CloseExecutionRequest request)
+        {
+            request.ProcessId = Environment.ProcessId;
+            return await CallRpcAsync(_client!.CloseExecutionAsync, request);
         }
 
         private async Task<TResponse> CallRpcAsync<TRequest, TResponse>(

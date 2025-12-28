@@ -19,6 +19,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
         public event EventHandler? OnActiveSequenceChange;
         public event EventHandler<InvokeErrorBannerEventArgs>? OnInvokeErrorBanner;
         public event EventHandler? OnSequenceFileExecutionStateChange;
+        public event EventHandler? OnProcessModelEntryPointsUpdate;
 
         public bool IsFileOpen
         {
@@ -152,6 +153,31 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
                 }
             }
             OnSequenceFileChange?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void UpdateProcessModelEntryPoints(ProcessModelEntryPointsUpdate processModelEntryPointsUpdate)
+        {
+            lock (_sequenceStateLock)
+            {
+                if (_activeSequenceFile != null)
+                {
+                    bool entryPointsUpdated = false;
+                    if (processModelEntryPointsUpdate.EntryPoints.Count != 0)
+                    {
+                        _activeSequenceFile.EntryPoints = [.. processModelEntryPointsUpdate.EntryPoints];
+                        entryPointsUpdated = true;
+                    }
+                    if (!string.IsNullOrEmpty(processModelEntryPointsUpdate.ProcessModelUri))
+                    {
+                        _activeSequenceFile.ProcessModelName = Path.GetFileName(processModelEntryPointsUpdate.ProcessModelUri);
+                        entryPointsUpdated = true;
+                    }
+                    if (entryPointsUpdated)
+                    {
+                        OnProcessModelEntryPointsUpdate?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+            }
         }
 
         public void UpdateErrorState(ErrorUpdate errorUpdate)

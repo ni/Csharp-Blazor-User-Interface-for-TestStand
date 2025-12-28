@@ -246,6 +246,12 @@ function toggleTheme() {
     nativeTheme.themeSource = nativeTheme.themeSource == 'dark' ? 'light' : 'dark';
 }
 
+function openUrlInDefaultBrowser(event, url) {
+    shell.openExternal(url).catch((err) => {
+        logToFile(`Failed to open URL ${url} in default browser: ${err.message}`);
+    });
+}
+
 const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
     app.quit();
@@ -264,6 +270,7 @@ app.whenReady().then(async () => {
     ipcMain.handle('view-report', viewReport);
     ipcMain.handle('browseFile', browseFile);
     ipcMain.handle('toggle-theme', toggleTheme);
+    ipcMain.handle('open-url', openUrlInDefaultBrowser);
     startServer();
     await createWindow();
 });

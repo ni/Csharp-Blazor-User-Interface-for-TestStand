@@ -3,15 +3,24 @@
 }
 
 .dialog-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    --ni-nimble-icon-size: 20px;
+}
+
+.header-text {
     display: flex;
     align-items: center;
     justify-content: start;
     gap: 10px;
+    --ni-nimble-icon-size: 25px;
 }
 
-.dialog-header-icon {
-    width: 25px;
-    height: 25px;
+.code-help-link {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .error-message {

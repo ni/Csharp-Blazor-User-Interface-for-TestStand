@@ -1,8 +1,18 @@
 ﻿<NimbleToolbar>
-    <NimbleButton Appearance="ButtonAppearance.Ghost" id="resume-button" ContentHidden="true" slot="start" Disabled="@(!_canResumeExecution)" @onclick="async () => await UpdateExecutionAsync(Sequencing.V2.UpdateExecutionType.Resume)">
-        <NimbleIconPlay slot="start" Severity="IconSeverity.Success" />
-    </NimbleButton>
-    <NimbleTooltip Anchor="resume-button">Resume</NimbleTooltip>
+    @if (_isExecutionCompleted)
+    {
+        <NimbleButton Appearance="ButtonAppearance.Ghost" id="restart-button" ContentHidden="true" slot="start" Disabled="@(!_isExecutionCompleted)" @onclick="async () => await RestartExecutionAsync()">
+            <NimbleIconPlay slot="start" Severity="IconSeverity.Success" />
+        </NimbleButton>
+        <NimbleTooltip Anchor="restart-button">Restart</NimbleTooltip>
+    }
+    else
+    {
+        <NimbleButton Appearance="ButtonAppearance.Ghost" id="resume-button" ContentHidden="true" slot="start" Disabled="@(!_canResumeExecution)" @onclick="async () => await UpdateExecutionAsync(Sequencing.V2.UpdateExecutionType.Resume)">
+            <NimbleIconPlay slot="start" Severity="IconSeverity.Success" />
+        </NimbleButton>
+        <NimbleTooltip Anchor="resume-button">Resume</NimbleTooltip>
+    }
 
     <NimbleButton Appearance="ButtonAppearance.Ghost" id="break-button" ContentHidden="true" slot="start" Disabled="@(!_canBreakExecution)" @onclick="async () => await UpdateExecutionAsync(Sequencing.V2.UpdateExecutionType.Break)">
         <NimbleIconPause slot="start" Severity="IconSeverity.Default" />
@@ -31,6 +41,27 @@
         <img src="icons/StepOut.svg" slot="start" class="invert-svg svg-20" />
     </NimbleButton>
     <NimbleTooltip Anchor="stepout-button">Step Out</NimbleTooltip>
+
+    <div class="divider-vertical" slot="start"></div>
+
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="resume-all-button" ContentHidden="true" slot="start" Disabled="@(!_canResumeAllExecution)" @onclick="async () => await UpdateAllExecutionAsync(Sequencing.V2.UpdateExecutionType.Resume)">
+        <img src=@(_canResumeAllExecution
+            ? ThemeProvider.CurrentTheme is Theme.Dark ? "icons/ResumeAll_Dark.svg" : "icons/ResumeAll_Light.svg"
+                          : "icons/ResumeAll.svg") slot="start" class=@(!_canResumeAllExecution ? "invert-svg svg-16" : "svg-16") />
+    </NimbleButton>
+    <NimbleTooltip Anchor="resume-all-button">Resume All</NimbleTooltip>
+
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="break-all-button" ContentHidden="true" slot="start" Disabled="@(!_canBreakAllExecution)" @onclick="async () => await UpdateAllExecutionAsync(Sequencing.V2.UpdateExecutionType.Break)">
+        <img src="icons/BreakAll.svg" slot="start" class="invert-svg svg-16" />
+    </NimbleButton>
+    <NimbleTooltip Anchor="break-all-button">Break All</NimbleTooltip>
+
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="terminate-all-button" ContentHidden="true" slot="start" Disabled="@(!_canTerminateAllExecution)" @onclick="async () => await UpdateAllExecutionAsync(Sequencing.V2.UpdateExecutionType.Terminate)">
+        <img src=@(_canTerminateAllExecution
+            ? ThemeProvider.CurrentTheme is Theme.Dark ? "icons/TerminateAll_Dark.svg" : "icons/TerminateAll_Light.svg"
+                          : "icons/TerminateAll.svg") slot="start" class=@(!_canTerminateAllExecution ? "invert-svg svg-16" : "svg-16") />
+    </NimbleButton>
+    <NimbleTooltip Anchor="terminate-all-button">Terminate All</NimbleTooltip>
 
     @if (_activeExecution?.ExecutionErrors.Count > 1)
     {
@@ -103,7 +134,7 @@
         </span>
     </div>
 
-    <NimbleButton Appearance="ButtonAppearance.Ghost" id="close-button" ContentHidden="true" slot="end" Disabled="@(!_canCloseExecution)" @onclick="CloseExecution">
+    <NimbleButton Appearance="ButtonAppearance.Ghost" id="close-button" ContentHidden="true" slot="end" Disabled="@(!_canCloseExecution)" @onclick="CloseExecutionAsync">
         <NimbleIconXmark slot="start" Severity="IconSeverity.Error"></NimbleIconXmark>
     </NimbleButton>
     <NimbleTooltip Anchor="close-button">Close Execution</NimbleTooltip>

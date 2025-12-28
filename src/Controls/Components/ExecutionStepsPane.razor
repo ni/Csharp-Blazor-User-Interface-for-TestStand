@@ -21,11 +21,10 @@
                 </NimbleTableColumnText>
                 <NimbleTableColumnText ColumnId="StepGroup" FieldName="StepGroup" ColumnHidden="true" GroupIndex="0" />
                 <NimbleTableColumnMapping ColumnId="ExecutionIcon" FieldName="ExecutionIcon" SortingDisabled="true" TKey="String" WidthMode="MappingColumnWidthMode.IconSize">
-                    <NimbleIconCircleBroken title="status" />
                     <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.PassedStatus) Icon="nimble-icon-check" Severity="IconSeverity.Success" Text=@(SequencingConstants.PassedStatus) />
                     <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.FailedStatus) Icon="nimble-icon-xmark" Severity="IconSeverity.Error" Text=@(SequencingConstants.FailedStatus) />
                     <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.ErrorStatus) Icon="nimble-icon-xmark" Severity="IconSeverity.Error" Text=@(SequencingConstants.ErrorStatus) />
-                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.DoneStatus) Icon="nimble-icon-check-dot" Severity="IconSeverity.Information" Text=@(SequencingConstants.DoneStatus) />
+                    <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.DoneStatus) Icon="nimble-icon-check" Severity="IconSeverity.Information" Text=@(SequencingConstants.DoneStatus) />
                     <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.SkippedStatus) Icon="nimble-icon-circle-filled" Severity="IconSeverity.Default" Text=@(SequencingConstants.SkippedStatus) />
                     <NimbleMappingSpinner TKey="String" Key=@(SequencingConstants.RunningStatus) Text=@(SequencingConstants.RunningStatus)></NimbleMappingSpinner>
                     <NimbleMappingIcon TKey="String" Key=@(SequencingConstants.PausedStatus) Icon="nimble-icon-pause" Severity="IconSeverity.Warning" Text=@(SequencingConstants.PausedStatus) />
@@ -45,6 +44,7 @@
                 </NimbleMenu>
             </NimbleTable>
         </div>
+        <InfoBanner />
         <ExecutionErrorDialog />
     }
     else

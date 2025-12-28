@@ -295,6 +295,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
                     else
                     {
                         TableBackgroundCss = "paused-background";
+                        await InvokeAsync(StateHasChanged);
                     }
 
                     ExecutionStepsRecord? runningStep = GetRunningStep() ?? GetPausedStep();

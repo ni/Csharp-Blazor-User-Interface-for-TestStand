@@ -19,10 +19,11 @@
 }
 
 ::deep nimble-toolbar::part(positioning-region) {
-    background: var(--ni-nimble-header-background-color);
+    background: var(--ni-weboi-toolbar-background-color);
     padding-left: 4px;
     margin-bottom: 4px;
     border-radius: 2px;
+    --ni-nimble-standard-padding: 12px;
 }
 
 nimble-tree-item::part(content-region) {

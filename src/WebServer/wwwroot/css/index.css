@@ -5,6 +5,10 @@
     font-family: var(--ni-nimble-body-emphasized-font-family);
 }
 
+:root {
+    --ni-weboi-toolbar-background-color: var(--ni-nimble-header-background-color);
+}
+
 /* Scroll Behaviour */
 .overflow-auto {
     overflow: auto;
@@ -22,13 +26,16 @@ nimble-dialog.execution-error-dialog {
 
 /* Default Themes */
 .dark-theme {
+    --ni-weboi-toolbar-background-color: var(--ni-nimble-header-background-color) !important;
     background-color: #1e1e1e;
     color: #fff;
 }
 
 .light-theme {
-    --ni-nimble-application-background-color: #FBFBFB;
-    background-color: #FBFBFB;
+    --ni-nimble-application-background-color: #F5F5F5;
+    --ni-weboi-toolbar-background-color: var(--ni-nimble-tag-fill-color) !important;
+    --ni-nimble-table-row-border-color: var(--ni-nimble-calendar-grid-border-color) !important;
+    background-color: #F5F5F5;
     color: #000;
 }
 
@@ -84,6 +91,11 @@ div.components-reconnect-error-subtitle {
     filter: invert(1);
 }
 
+.svg-16 {
+    width: 16px;
+    height: 16px;
+}
+
 .svg-18 {
     width: 18px;
     height: 18px;
@@ -101,4 +113,8 @@ div.components-reconnect-error-subtitle {
 
 .light-theme .pause-icon {
     --ni-nimble-warning-color: #E5AC0C !important;
+}
+
+.nimble-menu-items {
+    --ni-nimble-icon-color: var(--ni-nimble-pass-color);
 }

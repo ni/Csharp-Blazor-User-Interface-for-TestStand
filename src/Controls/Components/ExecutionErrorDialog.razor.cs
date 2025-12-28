@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
 using NationalInstruments.Sequencing.V2;
 using NationalInstruments.TestStand.WebOI.UI.Services;
 using NationalInstruments.TestStand.WebOI.UI.Services.Events;
@@ -13,7 +16,16 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
     {
         [Inject]
         private IExecutionStateService ExecutionStateService { get; set; } = null!;
+
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; } = null!;
+
+        [Inject]
+        private ILogger<ExecutionErrorDialog> Logger { get; set; } = null!;
+
         private string Message { get; set; } = string.Empty;
+        private string SequenceName { get; set; } = string.Empty;
+        private string SequenceFileName { get; set; } = string.Empty;
         private int ErrorCode { get; set; }
         private Step? ErrorStep { get; set; }
         private EventHandler<ObserveErrorEventArgs>? _observeErrorHandler;
@@ -32,6 +44,8 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             {
                 ErrorStep = e.Step;
             }
+            SequenceName = e.SequenceName ?? string.Empty;
+            SequenceFileName = Path.GetFileName(e.SequenceFileUri ?? string.Empty);
             // Close any existing dialog before showing a new one
             await CloseDialogAsync(NimbleDialogResult.Cancel);
             await InvokeAsync(StateHasChanged);
@@ -49,6 +63,42 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
                 return;
             }
         }
+
+        private async Task OnDialogKeyDownAsync(KeyboardEventArgs e)
+        {
+            if (e.CtrlKey && string.Equals(e.Key, "C", StringComparison.OrdinalIgnoreCase))
+            {
+                await CopyErrorDetailsAsync();
+            }
+        }
+
+        private async Task CopyErrorDetailsAsync()
+        {
+            if (ErrorStep != null)
+            {
+                string errorDetails = $"{Message}\n\n\n" +
+                                      $"ERROR CODE \n " +
+                                      $"{ErrorCode}\n\n\n" +
+                                      $"LOCATION \n " +
+                                      $"Step '{ErrorStep.Name}' of sequence '{SequenceName}' in '{SequenceFileName}'";
+                await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", errorDetails);
+            }
+        }
+
+        private async Task OpenCodeHelpAsync()
+        {
+            string codeHelpUrl = "https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tsapiref/tserror.html";
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("openUrlInBrowser", codeHelpUrl);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogWarning("Failed to open Url using Electron API. Falling back to window.open. {Message}", ex.Message);
+                await JSRuntime.InvokeVoidAsync("window.open", codeHelpUrl, "_blank");
+            }
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {

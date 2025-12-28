@@ -1,22 +1,30 @@
-﻿<NimbleDialog @ref="_errorDialog" TCloseReason="NimbleDialogResult" class="execution-error-dialog">
+﻿<NimbleDialog @ref="_errorDialog" TCloseReason="NimbleDialogResult" @onkeydown="async (e) => await OnDialogKeyDownAsync(e)" class="execution-error-dialog">
     <div slot="title" class="dialog-header">
-        <NimbleIconExclamationMark Severity="NimbleBlazor.IconSeverity.Error" class="dialog-header-icon" />
-        <span>Run-Time Error</span>
+        <div class="header-text">
+            <NimbleIconExclamationMark Severity="IconSeverity.Error" />
+            <span>Run-Time Error</span>
+        </div>
+        <NimbleButton Appearance="ButtonAppearance.Ghost" ContentHidden="true" @onclick="CopyErrorDetailsAsync">
+            <NimbleIconCopyText id="copy-button" slot="start"/>
+        </NimbleButton>
     </div>
+    <NimbleTooltip Anchor="copy-button">Copy Error Details</NimbleTooltip>
     <div>
-        <p class="title">MESSAGE</p>
         <p class="error-message">@Message</p>
     </div>
     <p>
         <span class="title">ERROR CODE: </span>
-        <span class="failed">@ErrorCode</span>
+        <span id="error-code" class="failed code-help-link" @onclick="OpenCodeHelpAsync">@ErrorCode</span>
+        <NimbleTooltip Anchor="error-code">Error Code Help</NimbleTooltip>
     </p>
     @if (ErrorStep is not null)
     {
-        <p>
-            <span class="title">STEP: </span>
-            @ErrorStep.Name
-        </p>
+        <div>
+            <p class="title">LOCATION</p>
+            <span>
+                Step '@ErrorStep?.Name' of sequence '@SequenceName' in '@SequenceFileName'
+            </span>
+        </div>
     }
     <NimbleButton slot="footer" @onclick='() => CloseDialogAsync(NimbleDialogResult.Cancel)'>Close</NimbleButton>
 </NimbleDialog>

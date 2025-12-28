@@ -83,6 +83,11 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             StateHasChanged();
         }
 
+        private async Task CloseAllExecutionAsync()
+        {
+            await ExecutionStateService.CleanupAllExecutionsAsync();
+        }
+
         private string GetTruncatedExecutionSequenceName(string? sequenceName)
         {
             if (string.IsNullOrEmpty(sequenceName))

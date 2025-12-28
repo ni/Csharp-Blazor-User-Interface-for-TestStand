@@ -23,3 +23,11 @@ window.toggleTheme = async () => {
         throw error;
     }
 }
+
+window.openUrlInBrowser = async (url) => {
+    try {
+        await window.electronAPI.openUrl(url);
+    } catch (error) {
+        throw error;
+    }
+}

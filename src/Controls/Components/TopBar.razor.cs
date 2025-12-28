@@ -56,7 +56,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
         private NimbleDialog<NimbleDialogResult>? _loginDialog;
         private string _loginDialogErrorMessage = string.Empty;
         private string _password = string.Empty;
-        private string _username = string.Empty;
+        private string _username = "administrator";
         private bool _isLoggingOut;
         private bool _isLoggingIn = true;
 
@@ -89,9 +89,24 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
         /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender && !_isLoggingIn && IsUserNull)
+            if (firstRender && IsUserNull)
             {
-                await OpenLoginDialogAsync();
+                if (!_isLoggingIn)
+                {
+                    await OpenLoginDialogAsync();
+                }
+                else
+                {
+                    // Wait until _isLoggingIn becomes false, then open the dialog if the user is still null.
+                    while (_isLoggingIn)
+                    {
+                        await Task.Delay(100);
+                    }
+                    if (IsUserNull)
+                    {
+                        await OpenLoginDialogAsync();
+                    }
+                }
             }
         }
 

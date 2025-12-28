@@ -1,6 +1,14 @@
 ﻿<div class="execution-pane-container">
     <NimbleToolbar>
         <h4 class="execution-pane-title">Executions</h4>
+        <NimbleMenuButton Appearance="ButtonAppearance.Ghost" ContentHidden="true" slot="end">
+            <NimbleIconThreeDotsLine slot="start" />
+            <NimbleMenu slot="menu" role="menu">
+                <NimbleMenuItem role="menuitem" @onclick="CloseAllExecutionAsync">
+                    Close Completed Executions
+                </NimbleMenuItem>
+            </NimbleMenu>
+        </NimbleMenuButton>
     </NimbleToolbar>
     <div class="execution-container">
         <NimbleTreeView SelectionMode="SelectionMode.All">

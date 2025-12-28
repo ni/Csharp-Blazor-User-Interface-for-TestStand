@@ -14,6 +14,12 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services.Events
         /// <inheritdoc cref="ErrorUpdate.Message" />
         public string? Message { get; } = errorUpdate.Message;
 
+        /// <inheritdoc cref="ErrorUpdate.SequenceName" />
+        public string? SequenceName { get; } = errorUpdate.SequenceName;
+
+        /// <inheritdoc cref="ErrorUpdate.SequenceFileUri" />
+        public string? SequenceFileUri { get; } = errorUpdate.SequenceFileUri;
+
         /// <inheritdoc cref="ErrorUpdate.ErrorCode" />
         public int ErrorCode { get; } = errorUpdate.ErrorCode;
 

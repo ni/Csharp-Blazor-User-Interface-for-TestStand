@@ -4,6 +4,7 @@
 
 nimble-toolbar::part(positioning-region) {
     align-items: center;
+    --ni-nimble-standard-padding: 12px;
 }
 
 .divider-vertical {

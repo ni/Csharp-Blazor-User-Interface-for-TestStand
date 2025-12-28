@@ -1,6 +1,7 @@
 ﻿<NimbleToolbar>
     <NimbleTextField id="sequence-name-tag"
                      Placeholder="@SequenceFileStateService.ActiveSequenceFileName"
+                     Value="@SequenceFileStateService.ActiveSequenceFileName"
                      TextFieldType="TextFieldType.Text"
                      Appearance="TextFieldAppearance.Frameless"
                      ReadOnly="true"
@@ -11,10 +12,40 @@
         @SequenceFileStateService.ActiveSequenceFileName
     </NimbleTooltip>
     <div class="divider-vertical" slot="start"></div>
-    <NimbleButton Appearance="ButtonAppearance.Ghost" id="single-pass-button" ContentHidden="true" slot="start" Disabled="@(_startingExecution || SequenceFileStateService.IsExecuting)" @onclick="SinglePassExecutionAsync">
-        <NimbleIconSkipArrow slot="start" Severity="IconSeverity.Success" style="height: 20px; width:20px" />
-    </NimbleButton>
-    <NimbleTooltip Anchor="single-pass-button">Single Pass</NimbleTooltip>
+    <NimbleMenuButton Appearance="ButtonAppearance.Block" slot="start" ContentHidden="true" Position="MenuButtonPosition.Auto">
+        <NimbleIconPlay slot="start" Severity="IconSeverity.Success" id="execute-options" />
+        Execute
+        <NimbleMenu slot="menu">
+            @foreach (var entryPoint in _entryPoints ?? [])
+            {
+                <NimbleMenuItem @onclick="async () => await StartExecutionAsync(entryPoint.SequenceName, true)" id="@entryPoint" Disabled="@(_startingExecution || SequenceFileStateService.IsExecuting)">
+                    @entryPoint.DisplayName @_modelSequenceName 
+                    @switch(entryPoint.SequenceName)
+                    {
+                        case "Single Pass":
+                            <img src=@(ThemeProvider.CurrentTheme is Theme.Dark ? "icons/SinglePass_Dark.svg" : "icons/SinglePass_Light.svg") slot="start" class="svg-16" />
+                            break;
+                        case "Test UUTs":
+                            <img src=@(ThemeProvider.CurrentTheme is Theme.Dark ? "icons/TestUUT_Dark.svg" : "icons/TestUUT_Light.svg") slot="start" class="svg-16" />
+                            break;
+                        default:
+                            break;
+                    }
+                </NimbleMenuItem>
+            }
+            @if (SequenceFileStateService.ActiveSequence != null)
+            {
+                <NimbleMenuItem @onclick="async () => await StartExecutionAsync(SequenceFileStateService.ActiveSequence.SequenceName, false)" id="runActiveSequence" Disabled="@(_startingExecution || SequenceFileStateService.IsExecuting)">
+                    <NimbleIconPlay slot="start" Severity="IconSeverity.Success" class="nimble-menu-items" />
+                    Run @(SequenceFileStateService.ActiveSequence.SequenceName)
+                </NimbleMenuItem>
+            }
+        </NimbleMenu>
+    </NimbleMenuButton>
+    <NimbleTooltip anchor="execute-options">
+        Execute
+    </NimbleTooltip>
+
     @if (SequenceFileStateService.IsExecuting)
     {
         <div class="status-chip" slot="end">

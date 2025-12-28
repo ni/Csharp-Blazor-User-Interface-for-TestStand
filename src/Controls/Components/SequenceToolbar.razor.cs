@@ -17,21 +17,52 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
         [Inject]
         private ISequencingObserver SequencingObserver { get; set; } = null!;
 
+        [Inject]
+        private ThemeProvider ThemeProvider { get; set; } = null!;
+
+        private List<EntryPointInfo> _entryPoints = [];
+        private string _modelSequenceName = string.Empty;
         private bool _startingExecution;
         private EventHandler? _updateHandler;
+        private EventHandler? _entryPointsUpdateHandler;
 
         /// <inheritdoc/>
         protected override async Task OnInitializedAsync()
         {
+            _entryPoints = SequenceFileStateService.ActiveSequenceFile?.EntryPoints.ToList() ?? [];
+            _modelSequenceName = GetFormattedProcessModelName(SequenceFileStateService.ActiveSequenceFile?.ProcessModelName);
             _updateHandler = async (s, e) => await InvokeAsync(StateHasChanged);
+            _entryPointsUpdateHandler = async (s, e) => await UpdateEntryPointsAsync();
             SequenceFileStateService.OnSequenceFileNameUpdate += _updateHandler;
             SequenceFileStateService.OnSequenceFileExecutionStateChange += _updateHandler;
+            SequenceFileStateService.OnProcessModelEntryPointsUpdate += _entryPointsUpdateHandler;
+            SequenceFileStateService.OnActiveSequenceChange += _updateHandler;
+            ThemeProvider.OnChange += _updateHandler;
         }
 
-        private async Task SinglePassExecutionAsync()
+        private async Task UpdateEntryPointsAsync()
+        {
+            if (SequenceFileStateService.ActiveSequenceFile is not null)
+            {
+                _entryPoints = [.. SequenceFileStateService.ActiveSequenceFile.EntryPoints];
+                _modelSequenceName = GetFormattedProcessModelName(SequenceFileStateService.ActiveSequenceFile?.ProcessModelName);
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+
+        private string GetFormattedProcessModelName(string? processModelName)
+        {
+            return string.IsNullOrEmpty(processModelName) ? string.Empty : string.Concat(["(", processModelName, ") "]);
+        }
+
+        private async Task StartExecutionAsync(string entryPointSequenceName, bool isProcessModelEntryPoint)
         {
             try
             {
+                if (SequenceFileStateService.IsExecuting)
+                {
+                    return;
+                }
                 _startingExecution = true;
                 if (SequenceFileStateService.ActiveSequenceFile is not null)
                 {
@@ -41,6 +72,14 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
                     {
                         SequenceFileId = sequenceFileId
                     };
+                    if (isProcessModelEntryPoint)
+                    {
+                        request.ProcessModelEntryName = entryPointSequenceName;
+                    }
+                    else
+                    {
+                        request.SequenceName = entryPointSequenceName;
+                    }
                     _ = Task.Run(async () =>
                     {
                         try
@@ -71,7 +110,14 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             {
                 SequenceFileStateService.OnSequenceFileNameUpdate -= _updateHandler;
                 SequenceFileStateService.OnSequenceFileExecutionStateChange -= _updateHandler;
+                SequenceFileStateService.OnActiveSequenceChange -= _updateHandler;
+                ThemeProvider.OnChange -= _updateHandler;
                 _updateHandler = null;
+            }
+            if (_entryPointsUpdateHandler != null)
+            {
+                SequenceFileStateService.OnProcessModelEntryPointsUpdate -= _entryPointsUpdateHandler;
+                _entryPointsUpdateHandler = null;
             }
         }
     }
