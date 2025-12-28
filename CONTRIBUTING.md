@@ -7,9 +7,9 @@ To submit changes to TestStand WebOI, the first step is to build the repo which 
 
 - Sync the repository
 - Install Node.js version 24+ (run `node --version`) and npm version 10+ (run `npm --version`) which can be downloaded from <https://nodejs.org/en/download/>
-- Install .NET 8 SDK (`8.0.403` or higher) which can be downloaded from <https://dotnet.microsoft.com/en-us/download>
-   - Run `dotnet --info` to verify the required version of the SDK is installed. A `v8` install is required, but it's fine if later versions are installed too.
-
+- Install .NET 8 SDK which can be downloaded from <https://dotnet.microsoft.com/en-us/download>
+   - Run `dotnet --info` to verify the required version of the SDK is installed.
+   
 ## Setting up backend dependencies
 - Install TestStand 2024 or later and license the product.
 - Install Sequencing Service package from the release page.
