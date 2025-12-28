@@ -66,6 +66,7 @@ message ObserveSequenceFileResponse {
     SelectionUpdate selection_update = 2;
     SequenceFileUpdate sequence_file_update = 3;
     ErrorUpdate error_update = 4;
+    ProcessModelEntryPointsUpdate process_model_entry_points_update = 5;
   }
 }
 
@@ -81,12 +82,20 @@ message ObserveSequenceFileExecutionResponse {
     ErrorUpdate error_update = 3;
     ExecutionStepListUpdate execution_step_list_update = 4;
     ExecutionResultUpdate execution_result_update = 5;
+    ExecutionInfoUpdate execution_info_update = 6;
   }
 }
 
 message AdvancedExecuteSequenceFileRequest {
   // Unique ID for the sequence file.
   string sequence_file_id = 1;
+  oneof sequence_target {
+    // Specifies the name of the sequence in the specified sequence file to execute.
+    string sequence_name = 2;
+    // Specifies the name of the Process Model entry point to execute.
+    // As of now, Sequencing Service supports Sequential Process Model only.
+    string process_model_entry_name = 3;
+  }
 }
 
 message AdvancedExecuteSequenceFileResponse {
@@ -200,6 +209,39 @@ message ExecutionResultUpdate {
   // Error code. Typically the value of Step.Error.Code for the step that generates a runtime error.
   // If the error originated from within TestStand or from the TestStand API, you can find the error codes at https://www.ni.com/docs/en-US/bundle/teststand-api-reference/page/tserrors/reftopics/overviewtopic.html
   int32 error_code = 3;
+}
+
+message ExecutionInfoUpdate {
+    oneof info {
+        ExecutionInitializationInfo initialization_info = 1;
+        ExecutionUUTInfo uut_info = 2;
+    }
+}
+
+message ExecutionInitializationInfo {
+    // The name of the entry point sequence of the execution.
+    string entry_sequence_name = 1;
+    // The path to the client sequence file associated with the execution.
+    string client_sequence_file_uri = 2;
+}
+
+message ExecutionUUTInfo {
+    // The serial number of the unit under test (UUT) associated with the execution.
+    string uut_serial_number = 1;
+}
+
+message ProcessModelEntryPointsUpdate {
+  // List of applicable entry points.
+  repeated EntryPointInfo entry_points = 1;
+  // The path of the process model sequence file applied to the observed Sequence File.
+  string process_model_uri = 2;
+}
+
+message EntryPointInfo {
+  // Name of the entry point sequence.
+  string sequence_name = 1;
+  // Display name of the entry point sequence.
+  string display_name = 2;
 }
 
 
