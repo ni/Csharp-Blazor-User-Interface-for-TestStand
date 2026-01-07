@@ -18,6 +18,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
         public event EventHandler<ExecutionStatusEventArgs>? OnExecutionStatusChange;
         public event EventHandler<ExecutionTimeInfoEventArgs>? OnExecutionTimeInfoChange;
         public event EventHandler<ExecutionTracingEventArgs>? OnExecutionTracingChange;
+        public event EventHandler<ExecutionInfoUpdateEventArgs>? OnExecutionInfoUpdate;
         public event EventHandler? OnReportCollectionChange;
         public event EventHandler? OnActiveExecutionChange;
         public event EventHandler? OnExecutionListChange;
@@ -318,6 +319,58 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
             if (activeExecutionTracingChanged)
             {
                 OnExecutionTracingChange?.Invoke(this, new ExecutionTracingEventArgs(executionId, previousStep, nextStep));
+            }
+        }
+
+        public void UpdateExecutionInfoState(int executionId, ExecutionInfoUpdate executionInfoUpdate)
+        {
+            bool executionListStateChanged = false;
+            bool activeExecutionChanged = false;
+            bool executionListChanged = false;
+            lock (_executionStateLock)
+            {
+                if (!_executions.TryGetValue(executionId, out Execution? execution))
+                {
+                    execution = new Execution
+                    {
+                        ExecutionId = executionId,
+                        ExecutionStatus = ExecutionStatus.Initializing
+                    };
+                    _executions[executionId] = execution;
+                    _activeExecutionId = executionId;
+                    activeExecutionChanged = true;
+                    executionListChanged = true;
+                }
+                switch (executionInfoUpdate.InfoCase)
+                {
+                    case ExecutionInfoUpdate.InfoOneofCase.InitializationInfo:
+                        execution.EntrySequenceName = executionInfoUpdate.InitializationInfo.EntrySequenceName;
+                        execution.ClientSequenceFilePath = executionInfoUpdate.InitializationInfo.ClientSequenceFileUri;
+                        executionListStateChanged = true;
+                        break;
+
+                    case ExecutionInfoUpdate.InfoOneofCase.UutInfo:
+                        execution.UUTSerialNumber = executionInfoUpdate.UutInfo.UutSerialNumber;
+                        executionListStateChanged = true;
+                        break;
+
+                    case ExecutionInfoUpdate.InfoOneofCase.None:
+                    default:
+                        break;
+                }
+            }
+            if (activeExecutionChanged)
+            {
+                OnActiveExecutionChange?.Invoke(this, EventArgs.Empty);
+                appStateService.IsSequencePaneOpen = false;
+            }
+            if (executionListStateChanged)
+            {
+                OnExecutionInfoUpdate?.Invoke(this, new ExecutionInfoUpdateEventArgs(executionId, executionInfoUpdate));
+            }
+            else if (executionListChanged)
+            {
+                OnExecutionListChange?.Invoke(this, EventArgs.Empty);
             }
         }
 

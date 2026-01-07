@@ -16,14 +16,12 @@
             {
                 <nimble-tree-item value=@execution.ExecutionId
                                   selected=@(ExecutionStateService.ActiveExecution?.ExecutionId == execution.ExecutionId)
-                                  @onclick="() => SelectExecution(execution.ExecutionId)">
+                                  @onclick="() => SelectExecution(execution.ExecutionId)"
+                                  id=@($"execution-{execution.ExecutionId}")> 
                     <div slot="start">
                         <ExecutionStatusIcon Status="@(GetStatusString(execution.ExecutionResult, execution.ExecutionResultErrorMessage, execution.ExecutionStatus))" />
                     </div>
-                    <span class="bold-text">[@execution.ExecutionId]</span>
-                    <span>@GetTruncatedExecutionSequenceName(execution.ExecutionSequence?.SequenceName)</span>
-                    &nbsp; -&nbsp;
-                    (@(GetStatusString(execution.ExecutionResult, execution.ExecutionResultErrorMessage, execution.ExecutionStatus)))
+                    <span>@GetExecutionDisplayText(execution)</span>
                 </nimble-tree-item>
             }
         </NimbleTreeView>

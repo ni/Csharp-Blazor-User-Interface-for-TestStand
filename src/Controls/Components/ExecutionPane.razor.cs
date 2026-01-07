@@ -20,10 +20,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
         private EventHandler<ExecutionStatusEventArgs>? _executionStatusHandler;
         private EventHandler<ExecutionSequenceEventArgs>? _executionSequenceChange;
         private EventHandler<ExecutionResultUpdateEventArgs>? _executionResultUpdateHandler;
-
-        private const int _maxLength = 15;
-        private const int _prefixLength = 10;
-        private const int _suffixLength = 5;
+        private EventHandler<ExecutionInfoUpdateEventArgs>? _executionInfoUpdateHandler;
 
         /// <inheritdoc/>
         protected override void OnInitialized()
@@ -33,10 +30,58 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             _executionStatusHandler = async (s, e) => await HandleExecutionStatusChangeAsync(e);
             _executionSequenceChange = async (s, e) => await InvokeAsync(StateHasChanged);
             _executionResultUpdateHandler = async (s, e) => await HandleExecutionResultUpdateAsync(e);
+            _executionInfoUpdateHandler = async (s, e) => await HandleExecutionInfoUpdateAsync(e);
+
             ExecutionStateService.OnExecutionListChange += _executionListHandler;
             ExecutionStateService.OnExecutionStatusChange += _executionStatusHandler;
             ExecutionStateService.OnExecutionSequenceChange += _executionSequenceChange;
             ExecutionStateService.OnExecutionResultUpdate += _executionResultUpdateHandler;
+            ExecutionStateService.OnExecutionInfoUpdate += _executionInfoUpdateHandler;
+        }
+
+        private string GetExecutionDisplayText(Execution execution)
+        {
+            List<string> parts = [];
+
+            // Add entry sequence name if available
+            if (!string.IsNullOrEmpty(execution.UUTSerialNumber))
+            {
+                parts.Add(string.Concat("Serial#: ", execution.UUTSerialNumber));
+            }
+            if (!string.IsNullOrEmpty(execution.EntrySequenceName))
+            {
+                parts.Add(execution.EntrySequenceName);
+            }
+
+            // Add sequence file name if available
+            if (!string.IsNullOrEmpty(execution.ClientSequenceFilePath))
+            {
+                if (parts.Count > 0)
+                {
+                    parts.Add("-");
+                }
+                parts.Add(Path.GetFileName(execution.ClientSequenceFilePath));
+            }
+
+            // Add execution ID
+            parts.Add($"[{execution.ExecutionId}]");
+
+            // Add execution status
+            parts.Add(execution.ExecutionStatus.ToString());
+
+            if (execution.ExecutionStatus == ExecutionStatus.Completed)
+            {
+                if (string.IsNullOrEmpty(execution.ExecutionResultErrorMessage))
+                {
+                    parts.Add($"[{execution.ExecutionResult}]");
+                }
+                else
+                {
+                    parts.Add($"[{SequencingConstants.ErrorStatus} - {execution.ExecutionResultErrorMessage}]");
+                }
+            }
+
+            return string.Join(" ", parts);
         }
 
         private string GetStatusString(string executionResult, string executionErrorMessage, ExecutionStatus status)
@@ -71,6 +116,24 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             }
         }
 
+        private async Task HandleExecutionInfoUpdateAsync(ExecutionInfoUpdateEventArgs e)
+        {
+            Execution? execution = ExecutionList.FirstOrDefault(exec => exec.ExecutionId == e.ExecutionId);
+            if (execution != null)
+            {
+                if (e.InitializationInfo != null)
+                {
+                    execution.EntrySequenceName = e.InitializationInfo.EntrySequenceName;
+                    execution.ClientSequenceFilePath = e.InitializationInfo.ClientSequenceFileUri;
+                }
+                else if (e.UUTInfo != null)
+                {
+                    execution.UUTSerialNumber = e.UUTInfo.UutSerialNumber;
+                }
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+
         private async Task UpdateExecutionListAsync()
         {
             ExecutionList = ExecutionStateService.Executions?.ToList() ?? [];
@@ -86,23 +149,6 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
         private async Task CloseAllExecutionAsync()
         {
             await ExecutionStateService.CleanupAllExecutionsAsync();
-        }
-
-        private string GetTruncatedExecutionSequenceName(string? sequenceName)
-        {
-            if (string.IsNullOrEmpty(sequenceName))
-            {
-                return string.Empty;
-            }
-
-            if (sequenceName.Length <= _maxLength)
-            {
-                return sequenceName;
-            }
-
-            string prefix = sequenceName[.._prefixLength];
-            string suffix = sequenceName[^_suffixLength..];
-            return $"{prefix}…{suffix}";
         }
 
         /// <inheritdoc/>
@@ -127,6 +173,11 @@ namespace NationalInstruments.TestStand.WebOI.UI.Components
             {
                 ExecutionStateService.OnExecutionResultUpdate -= _executionResultUpdateHandler;
                 _executionResultUpdateHandler = null;
+            }
+            if (_executionInfoUpdateHandler != null)
+            {
+                ExecutionStateService.OnExecutionInfoUpdate -= _executionInfoUpdateHandler;
+                _executionInfoUpdateHandler = null;
             }
         }
     }
