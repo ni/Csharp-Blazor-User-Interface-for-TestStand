@@ -291,6 +291,9 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
                 case ObserveSequenceFileExecutionResponse.UpdateOneofCase.ExecutionResultUpdate:
                     HandleExecutionResultUpdate(message.ExecutionId, message.ExecutionResultUpdate);
                     break;
+                case ObserveSequenceFileExecutionResponse.UpdateOneofCase.ExecutionInfoUpdate:
+                    HandleExecutionInfoUpdate(message.ExecutionId, message.ExecutionInfoUpdate);
+                    break;
                 case ObserveSequenceFileExecutionResponse.UpdateOneofCase.None:
                 default:
                     break;
@@ -357,6 +360,14 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
             if (executionResultUpdate != null)
             {
                 executionStateService.UpdateExecutionResult(executionId, executionResultUpdate);
+            }
+        }
+
+        private void HandleExecutionInfoUpdate(int executionId, ExecutionInfoUpdate? executionInfoUpdate)
+        {
+            if (executionInfoUpdate != null)
+            {
+                executionStateService.UpdateExecutionInfoState(executionId, executionInfoUpdate);
             }
         }
 

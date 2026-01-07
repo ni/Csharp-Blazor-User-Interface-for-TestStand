@@ -25,6 +25,8 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
 
         void UpdateExecutionStepList(int execution_id, ExecutionStepListUpdate executionStepListUpdate);
 
+        void UpdateExecutionInfoState(int execution_id, ExecutionInfoUpdate executionInfoUpdate);
+
         void UpdateExecutionResult(int execution_id, ExecutionResultUpdate executionResultUpdate);
 
         void InvokeErrorDialog(int executionId, ErrorUpdate errorUpdate);
@@ -46,5 +48,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
         event EventHandler? OnActiveExecutionChange;
 
         event EventHandler? OnExecutionListChange;
+
+        event EventHandler<ExecutionInfoUpdateEventArgs>? OnExecutionInfoUpdate;
     }
 }

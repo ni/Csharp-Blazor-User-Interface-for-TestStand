@@ -212,22 +212,22 @@ message ExecutionResultUpdate {
 }
 
 message ExecutionInfoUpdate {
-    oneof info {
-        ExecutionInitializationInfo initialization_info = 1;
-        ExecutionUUTInfo uut_info = 2;
-    }
+  oneof info {
+    ExecutionInitializationInfo initialization_info = 1;
+    ExecutionUUTInfo uut_info = 2;
+  }
 }
 
 message ExecutionInitializationInfo {
-    // The name of the entry point sequence of the execution.
-    string entry_sequence_name = 1;
-    // The path to the client sequence file associated with the execution.
-    string client_sequence_file_uri = 2;
+  // The name of the entry point sequence of the execution.
+  string entry_sequence_name = 1;
+  // The path to the client sequence file associated with the execution.
+  string client_sequence_file_uri = 2;
 }
 
 message ExecutionUUTInfo {
-    // The serial number of the unit under test (UUT) associated with the execution.
-    string uut_serial_number = 1;
+  // The serial number of the unit under test (UUT) associated with the execution.
+  string uut_serial_number = 1;
 }
 
 message ProcessModelEntryPointsUpdate {
