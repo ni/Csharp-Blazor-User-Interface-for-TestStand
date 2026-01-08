@@ -1,4 +1,4 @@
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     /// <summary>
     /// Type managing the gRPC connection to Sequencing services.

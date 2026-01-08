@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.UI.Services;
-using NationalInstruments.TestStand.WebOI.UI.Services.Events;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
 using NimbleBlazor;
-using static NationalInstruments.TestStand.WebOI.UI.Services.NimbleOptions;
-namespace NationalInstruments.TestStand.WebOI.UI.Components
+using static NationalInstruments.TestStand.BlazorOI.UI.Services.NimbleOptions;
+namespace NationalInstruments.TestStand.BlazorOI.UI.Components
 {
     /// <summary>
     /// Represents a dialog component that displays error information when an error is observed in the application.

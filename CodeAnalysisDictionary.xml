@@ -10,6 +10,7 @@
 			<Word>JSRuntime</Word>
 			<Word>Runtime</Word>
 			<Word>Breakpoint</Word>
+			<Word>Blazor</Word>
 		</Recognized>
 	</Words>
 </Dictionary>

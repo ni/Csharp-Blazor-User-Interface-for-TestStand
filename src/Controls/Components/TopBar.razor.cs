@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.SharedDomain.Models;
-using NationalInstruments.TestStand.WebOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain.Models;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
 using NimbleBlazor;
-using static NationalInstruments.TestStand.WebOI.UI.Services.NimbleOptions;
+using static NationalInstruments.TestStand.BlazorOI.UI.Services.NimbleOptions;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Components
+namespace NationalInstruments.TestStand.BlazorOI.UI.Components
 {
     /// <summary>
     /// Represents the navigation bar component for the application.

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.UI.Services;
-namespace NationalInstruments.TestStand.WebOI.UI.Components
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
+namespace NationalInstruments.TestStand.BlazorOI.UI.Components
 {
     /// <summary>
     /// Represents the tool bar component in the sequence view tab.

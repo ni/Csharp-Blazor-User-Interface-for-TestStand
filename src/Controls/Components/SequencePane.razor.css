@@ -19,7 +19,7 @@
 }
 
 ::deep nimble-toolbar::part(positioning-region) {
-    background: var(--ni-weboi-toolbar-background-color);
+    background: var(--ni-blazoroi-toolbar-background-color);
     padding-left: 4px;
     margin-bottom: 4px;
     border-radius: 2px;

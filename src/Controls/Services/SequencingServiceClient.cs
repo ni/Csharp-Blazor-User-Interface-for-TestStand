@@ -4,10 +4,10 @@ using Grpc.Net.Client;
 using Grpc.Net.Client.Configuration;
 using Microsoft.Extensions.Logging;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.UI.Services.Events;
-using NationalInstruments.TestStand.WebOI.Utilities.Discovery;
+using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
+using NationalInstruments.TestStand.BlazorOI.Utilities.Discovery;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     internal sealed class SequencingServiceClient(
         ILogger<SequencingServiceClient> logger,

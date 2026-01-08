@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using NationalInstruments.Sequencing.V2;
 
-namespace NationalInstruments.TestStand.WebOI.SharedDomain.Models
+namespace NationalInstruments.TestStand.BlazorOI.SharedDomain.Models
 {
     /// <summary>
     /// The execution object
@@ -47,5 +47,20 @@ namespace NationalInstruments.TestStand.WebOI.SharedDomain.Models
         /// Gets or sets the collection of errors that occurred during execution.
         /// </summary>
         public Collection<ErrorUpdate> ExecutionErrors { get; } = [];
+
+        /// <summary>
+        /// Gets or sets the entry point sequence name for the execution.
+        /// </summary>
+        public string? EntrySequenceName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client sequence file URI for the execution.
+        /// </summary>
+        public string? ClientSequenceFilePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the UUT serial number for the execution.
+        /// </summary>
+        public string? UUTSerialNumber { get; set; }
     }
 }

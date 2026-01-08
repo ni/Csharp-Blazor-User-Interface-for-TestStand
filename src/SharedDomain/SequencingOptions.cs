@@ -1,4 +1,4 @@
-﻿namespace NationalInstruments.TestStand.WebOI.SharedDomain
+﻿namespace NationalInstruments.TestStand.BlazorOI.SharedDomain
 {
     /// <summary>
     /// The step group object.

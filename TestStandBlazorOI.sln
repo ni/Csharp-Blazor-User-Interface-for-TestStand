@@ -10,12 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CodeAnalysisDictionary.xml = CodeAnalysisDictionary.xml
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
-		InstallForTests.targets = InstallForTests.targets
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "src\Controls\Controls.csproj", "{F52183DE-708C-4ABC-A118-5A875E89E9BE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebOIUtilities", "src\WebOIUtilities\WebOIUtilities.csproj", "{8E4632EE-1B3C-4E8E-B4C2-B9864A63B896}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedDomain", "src\SharedDomain\SharedDomain.csproj", "{AE11EE4D-365C-8E3F-D518-A7AEB5257D2A}"
 EndProject
@@ -24,7 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "electron", "electron", "{02
 		electron\all-components-bundle.min.js = electron\all-components-bundle.min.js
 		electron\electron-app.css = electron\electron-app.css
 		electron\error.html = electron\error.html
-		electron\assets\LICENSE.txt = electron\assets\LICENSE.txt
 		electron\loader.html = electron\loader.html
 		electron\main.js = electron\main.js
 		electron\package-lock.json = electron\package-lock.json
@@ -37,18 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{6E05EF
 		electron\assets\teststand_64bit.ico = electron\assets\teststand_64bit.ico
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{F3516EF3-2207-4739-9907-3370005EC90E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ni", "ni", "{8013B0CB-53E9-4D4D-AE1A-562CCE02EEC7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sequencing", "sequencing", "{822CFFCD-03CE-4EC6-B448-E0EF61CAF0A4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2", "v2", "{F3F9EDEB-5217-438E-AA8C-ACB44D95DEA6}"
-	ProjectSection(SolutionItems) = preProject
-		Protos\ni\sequencing\v2\sequencing.proto = Protos\ni\sequencing\v2\sequencing.proto
-		Protos\ni\sequencing\v2\sequencing_service_advanced.proto = Protos\ni\sequencing\v2\sequencing_service_advanced.proto
-		Protos\ni\sequencing\v2\user_management_service.proto = Protos\ni\sequencing\v2\user_management_service.proto
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorOIUtilities", "src\BlazorOIUtilities\BlazorOIUtilities.csproj", "{E4BD78DB-4407-507D-558D-B283AB28DEE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,23 +49,20 @@ Global
 		{F52183DE-708C-4ABC-A118-5A875E89E9BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F52183DE-708C-4ABC-A118-5A875E89E9BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F52183DE-708C-4ABC-A118-5A875E89E9BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E4632EE-1B3C-4E8E-B4C2-B9864A63B896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E4632EE-1B3C-4E8E-B4C2-B9864A63B896}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E4632EE-1B3C-4E8E-B4C2-B9864A63B896}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E4632EE-1B3C-4E8E-B4C2-B9864A63B896}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AE11EE4D-365C-8E3F-D518-A7AEB5257D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AE11EE4D-365C-8E3F-D518-A7AEB5257D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE11EE4D-365C-8E3F-D518-A7AEB5257D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE11EE4D-365C-8E3F-D518-A7AEB5257D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4BD78DB-4407-507D-558D-B283AB28DEE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4BD78DB-4407-507D-558D-B283AB28DEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4BD78DB-4407-507D-558D-B283AB28DEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4BD78DB-4407-507D-558D-B283AB28DEE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6E05EF17-8E51-4DB1-B2F0-8B83D1CF27C8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{8013B0CB-53E9-4D4D-AE1A-562CCE02EEC7} = {F3516EF3-2207-4739-9907-3370005EC90E}
-		{822CFFCD-03CE-4EC6-B448-E0EF61CAF0A4} = {8013B0CB-53E9-4D4D-AE1A-562CCE02EEC7}
-		{F3F9EDEB-5217-438E-AA8C-ACB44D95DEA6} = {822CFFCD-03CE-4EC6-B448-E0EF61CAF0A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DDD4E1E2-D655-4B20-976A-42003D1FF1C9}

@@ -1,8 +1,8 @@
 ﻿using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.SharedDomain.Models;
-using NationalInstruments.TestStand.WebOI.UI.Services.Events;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain.Models;
+using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     /// <summary>
     /// Service for handling execution state of the active executions.
@@ -25,6 +25,8 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
 
         void UpdateExecutionStepList(int execution_id, ExecutionStepListUpdate executionStepListUpdate);
 
+        void UpdateExecutionInfoState(int execution_id, ExecutionInfoUpdate executionInfoUpdate);
+
         void UpdateExecutionResult(int execution_id, ExecutionResultUpdate executionResultUpdate);
 
         void InvokeErrorDialog(int executionId, ErrorUpdate errorUpdate);
@@ -46,5 +48,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
         event EventHandler? OnActiveExecutionChange;
 
         event EventHandler? OnExecutionListChange;
+
+        event EventHandler<ExecutionInfoUpdateEventArgs>? OnExecutionInfoUpdate;
     }
 }

@@ -1,8 +1,8 @@
 using Grpc.Core;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.UI.Services.Events;
+using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     /// <summary>
     /// Provides client operations for user management functionality including authentication and user information retrieval.

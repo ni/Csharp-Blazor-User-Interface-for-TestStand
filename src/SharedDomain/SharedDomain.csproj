@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 	<PropertyGroup>
-		<AssemblyName>NationalInstruments.TestStand.WebOI.SharedDomain</AssemblyName>
-		<RootNamespace>NationalInstruments.TestStand.WebOI.SharedDomain</RootNamespace>
+		<AssemblyName>NationalInstruments.TestStand.BlazorOI.SharedDomain</AssemblyName>
+		<RootNamespace>NationalInstruments.TestStand.BlazorOI.SharedDomain</RootNamespace>
 		<OutputType>Library</OutputType>
 	</PropertyGroup>
 	<ItemGroup>

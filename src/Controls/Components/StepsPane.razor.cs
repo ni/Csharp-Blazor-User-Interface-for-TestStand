@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.SharedDomain;
-using NationalInstruments.TestStand.WebOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
 using NimbleBlazor;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Components
+namespace NationalInstruments.TestStand.BlazorOI.UI.Components
 {
     /// <summary>
     /// Represents the Steps Pane component on the right bar of the application window.
