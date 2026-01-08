@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace NationalInstruments.TestStand.WebOI.WebServer
+namespace NationalInstruments.TestStand.BlazorOI.WebServer
 {
     /// <summary>
     /// Main layout for the Blazor Server application, which defines where the Body containing the app content goes.

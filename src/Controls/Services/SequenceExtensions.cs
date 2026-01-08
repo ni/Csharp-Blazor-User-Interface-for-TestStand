@@ -1,7 +1,7 @@
 ﻿using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.SharedDomain.Models;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain.Models;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     /// <summary>
     /// Extension methods and utilities for working with sequences and steps.

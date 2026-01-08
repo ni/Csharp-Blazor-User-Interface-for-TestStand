@@ -1,6 +1,6 @@
 using NimbleBlazor;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     /// <summary>
     /// Provides theme management functionality for the application, allowing components to react to theme changes.

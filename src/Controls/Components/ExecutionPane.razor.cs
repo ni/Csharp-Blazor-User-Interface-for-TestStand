@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.SharedDomain;
-using NationalInstruments.TestStand.WebOI.SharedDomain.Models;
-using NationalInstruments.TestStand.WebOI.UI.Services;
-using NationalInstruments.TestStand.WebOI.UI.Services.Events;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain.Models;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Components
+namespace NationalInstruments.TestStand.BlazorOI.UI.Components
 {
     /// <summary>
     /// Represents the Execution Pane component on the left bar of the application window.

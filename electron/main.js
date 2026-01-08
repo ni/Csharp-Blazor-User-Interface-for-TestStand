@@ -7,8 +7,8 @@ const { nativeTheme } = require('electron/main');
 
 let serverProcess = null;
 let mainWindow = null;
-const serverProcessName = "NationalInstruments.TestStand.WebOI.WebServer.exe";
-const appDataBasePath = path.join(app.getPath('appData'), 'National Instruments', 'TestStand WebOI');
+const serverProcessName = "NationalInstruments.TestStand.BlazorOI.WebServer.exe";
+const appDataBasePath = path.join(app.getPath('appData'), 'National Instruments', 'TestStand BlazorUI');
 const urlFilePath = path.join(appDataBasePath, 'webserver-url.txt');
 const logFilePath = path.join(appDataBasePath, 'logs', 'app.log');
 const MAX_LOG_SIZE = 5 * 1024 * 1024; // 5 MB

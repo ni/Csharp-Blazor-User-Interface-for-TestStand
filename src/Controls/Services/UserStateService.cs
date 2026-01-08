@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using NationalInstruments.Sequencing.V2;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     /// <inheritdoc/>
     internal sealed class UserStateService(ILogger<UserStateService> logger) : IUserStateService

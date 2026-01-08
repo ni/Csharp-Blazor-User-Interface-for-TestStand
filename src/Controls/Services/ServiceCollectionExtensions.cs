@@ -1,11 +1,11 @@
 using System.IO.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
-using NationalInstruments.TestStand.WebOI.Utilities;
+using NationalInstruments.TestStand.BlazorOI.Utilities;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     /// <summary>
-    /// Extensions for working with services required by the TestStand WebOI UI components.
+    /// Extensions for working with services required by the TestStand BlazorOI UI components.
     /// </summary>
     public static class ServiceCollectionExtensions
     {
@@ -25,7 +25,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services
         }
 
         /// <summary>
-        /// Add scoped services required by the TestStand WebOI UI components to the <see cref="IServiceCollection"/>.
+        /// Add scoped services required by the TestStand BlazorOI UI components to the <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">The service collection to which the scoped services will be added.</param>
         /// <returns>The service collection with the scoped services added.</returns>

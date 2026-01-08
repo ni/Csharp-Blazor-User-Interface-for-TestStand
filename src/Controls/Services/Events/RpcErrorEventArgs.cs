@@ -1,6 +1,6 @@
 using Grpc.Core;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services.Events
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services.Events
 {
     /// <summary>
     /// Event arguments for handling <see cref="RpcException"/>s.
@@ -15,7 +15,7 @@ namespace NationalInstruments.TestStand.WebOI.UI.Services.Events
         /// </summary>
         public string Message { get; } = exception switch
         {
-            RpcException e when ExceptionIndicatesServiceUnavailable(e) => "TestStand WebOI failed. Please try restarting the machine, and if the problem persists visit ni.com to request support.",
+            RpcException e when ExceptionIndicatesServiceUnavailable(e) => "TestStand BlazorOI failed. Please try restarting the machine, and if the problem persists visit ni.com to request support.",
             _ when !string.IsNullOrEmpty(exception.Status.Detail) => exception.Status.Detail,
             _ => GeneralErrorMessage
         };

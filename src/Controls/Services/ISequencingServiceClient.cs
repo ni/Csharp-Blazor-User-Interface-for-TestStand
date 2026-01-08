@@ -1,8 +1,8 @@
 using Grpc.Core;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.UI.Services.Events;
+using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     /// <summary>
     /// Make calls to the gRPC Sequencing Service(s).

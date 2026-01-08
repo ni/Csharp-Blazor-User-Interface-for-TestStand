@@ -1,4 +1,4 @@
-namespace NationalInstruments.TestStand.WebOI.Utilities.DevelopmentFeatures
+namespace NationalInstruments.TestStand.BlazorOI.Utilities.DevelopmentFeatures
 {
     /// <summary>
     /// Provides information about developer-only features and whether they should be shown.

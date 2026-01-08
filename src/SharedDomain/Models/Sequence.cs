@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using NationalInstruments.Sequencing.V2;
 
-namespace NationalInstruments.TestStand.WebOI.SharedDomain.Models
+namespace NationalInstruments.TestStand.BlazorOI.SharedDomain.Models
 {
     /// <summary>
     /// The sequence object

@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Components.Server.Circuits;
-using NationalInstruments.TestStand.WebOI.UI.Services;
-using NationalInstruments.TestStand.WebOI.Utilities;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.Utilities;
 using Serilog;
 
-namespace NationalInstruments.TestStand.WebOI.WebServer
+namespace NationalInstruments.TestStand.BlazorOI.WebServer
 {
     internal sealed class Program
     {
         private static readonly string _urlFilePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "National Instruments",
-            "TestStand WebOI",
+            "TestStand BlazorUI",
             "webserver-url.txt");
 
         public static async Task Main(string[] arguments)

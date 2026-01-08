@@ -1,11 +1,11 @@
 using System.Globalization;
 using NationalInstruments.MeasurementLink.Discovery.V1;
-using NationalInstruments.TestStand.WebOI.Utilities.DevelopmentFeatures;
-using NationalInstruments.TestStand.WebOI.Utilities.Discovery;
+using NationalInstruments.TestStand.BlazorOI.Utilities.DevelopmentFeatures;
+using NationalInstruments.TestStand.BlazorOI.Utilities.Discovery;
 using Serilog;
 using Serilog.Events;
 
-namespace NationalInstruments.TestStand.WebOI.Utilities
+namespace NationalInstruments.TestStand.BlazorOI.Utilities
 {
     /// <summary>
     /// Utility methods for working with an <see cref="IServiceCollection"/>.

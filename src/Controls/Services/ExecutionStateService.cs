@@ -1,10 +1,10 @@
 ﻿using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.SharedDomain.Models;
-using NationalInstruments.TestStand.WebOI.UI.Services.Events;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain.Models;
+using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     internal sealed class ExecutionStateService(IAppStateService appStateService, ILogger<ExecutionStateService> logger, ISequencingServiceClient sequencingServiceClient) : IExecutionStateService
     {

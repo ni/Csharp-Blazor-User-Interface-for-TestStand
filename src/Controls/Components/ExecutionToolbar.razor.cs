@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.SharedDomain;
-using NationalInstruments.TestStand.WebOI.SharedDomain.Models;
-using NationalInstruments.TestStand.WebOI.UI.Services;
-using NationalInstruments.TestStand.WebOI.UI.Services.Events;
-namespace NationalInstruments.TestStand.WebOI.UI.Components
+using NationalInstruments.TestStand.BlazorOI.SharedDomain;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain.Models;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
+namespace NationalInstruments.TestStand.BlazorOI.UI.Components
 {
     /// <summary>
     /// Represents the tool bar component that has execution related controls.

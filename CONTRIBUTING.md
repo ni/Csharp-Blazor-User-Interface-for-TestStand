@@ -1,9 +1,9 @@
-﻿# Contributing - TestStand WebOI
-Thank you for contributing to TestStand Web OI. This document gives a step‑by‑step guidance for local development, packaging, and making contributions.
+﻿# Contributing - Csharp (Blazor) User Interface for TestStand
+Thank you for contributing to TestStand Blazor User Interface. This document gives a step‑by‑step guidance for local development, packaging, and making contributions.
 
 ## Getting started
 
-To submit changes to TestStand WebOI, the first step is to build the repo which requires the following to be setup:
+To submit changes to TestStand Blazor UI, the first step is to build the repo which requires the following to be setup:
 
 - Sync the repository
 - Install Node.js version 24+ (run `node --version`) and npm version 10+ (run `npm --version`) which can be downloaded from <https://nodejs.org/en/download/>
@@ -19,7 +19,7 @@ To submit changes to TestStand WebOI, the first step is to build the repo which 
 
 ## Building and running the application
 
-From the `TestStand WebOI` directory:
+From the `TestStand BlazorUI` source directory:
 
 1. Navigate to electron directory - `cd electron`
 2. Run `npm install`
@@ -28,7 +28,7 @@ From the `TestStand WebOI` directory:
 
 ## Debugging
 
-- You can find the logs for the WebOI application in `%ProgramData%/National Instruments/TestStand/Logs`.
+- You can find the logs for the BlazorUI application in `%ProgramData%/National Instruments/TestStand/Logs`.
 - The logs for the backend sequencing service in `%ProgramData%/National Instruments/Sequencing Service/Logs`.
 
 ## Troubleshooting

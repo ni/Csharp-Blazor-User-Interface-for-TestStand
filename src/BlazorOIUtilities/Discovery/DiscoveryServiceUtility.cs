@@ -1,6 +1,6 @@
 using NationalInstruments.MeasurementLink.Discovery.V1;
 
-namespace NationalInstruments.TestStand.WebOI.Utilities.Discovery
+namespace NationalInstruments.TestStand.BlazorOI.Utilities.Discovery
 {
     /// <summary>
     /// Utility for using the <see cref="DiscoveryService"/>.

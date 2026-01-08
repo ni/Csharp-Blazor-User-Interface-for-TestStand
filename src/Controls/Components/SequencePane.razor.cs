@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Components;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.SharedDomain.Models;
-using NationalInstruments.TestStand.WebOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain.Models;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Components
+namespace NationalInstruments.TestStand.BlazorOI.UI.Components
 {
     /// <summary>
     /// Represents the Sequence Pane component on the left bar of the application window.

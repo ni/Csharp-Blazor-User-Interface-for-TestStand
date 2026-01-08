@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace NationalInstruments.TestStand.WebOI.WebServer
+namespace NationalInstruments.TestStand.BlazorOI.WebServer
 {
     /// <summary>
     /// Derives from <see cref="ErrorBoundary"/> to log all unhandled exceptions, and intentionally does not

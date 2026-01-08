@@ -1,6 +1,6 @@
-﻿using NationalInstruments.TestStand.WebOI.SharedDomain.Models;
+﻿using NationalInstruments.TestStand.BlazorOI.SharedDomain.Models;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services.Events
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services.Events
 {
     internal sealed class ExecutionSequenceEventArgs(int executionId, Sequence executionSequence) : EventArgs
     {

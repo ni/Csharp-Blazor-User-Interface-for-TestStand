@@ -1,6 +1,6 @@
 using System.IO.Abstractions;
 
-namespace NationalInstruments.TestStand.WebOI.Utilities.DevelopmentFeatures
+namespace NationalInstruments.TestStand.BlazorOI.Utilities.DevelopmentFeatures
 {
     internal sealed class DevelopmentFeaturesService(IFileSystem fileSystem, ILogger<DevelopmentFeaturesService> logger) : IDevelopmentFeaturesService
     {

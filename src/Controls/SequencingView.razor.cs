@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components;
-using NationalInstruments.TestStand.WebOI.UI.Components;
-using NationalInstruments.TestStand.WebOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.UI.Components;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
 using NimbleBlazor;
 
-namespace NationalInstruments.TestStand.WebOI.UI
+namespace NationalInstruments.TestStand.BlazorOI.UI
 {
     /// <summary>
     /// Represents the sequencing view component, which manages the display and behavior of sequencing-related UI elements.

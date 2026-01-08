@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Components
+namespace NationalInstruments.TestStand.BlazorOI.UI.Components
 {
     /// <summary>
     /// Represents a UI component that displays an icon corresponding to the current execution status of an operation.

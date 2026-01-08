@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-	<AssemblyName>NationalInstruments.TestStand.WebOI.WebServer</AssemblyName>
-	<RootNamespace>NationalInstruments.TestStand.WebOI.WebServer</RootNamespace>
+	<AssemblyName>NationalInstruments.TestStand.BlazorOI.WebServer</AssemblyName>
+	<RootNamespace>NationalInstruments.TestStand.BlazorOI.WebServer</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
-	<Product>TestStand WebOI</Product>
-	<ProductName>TestStand Web OI</ProductName>
+	<Product>TestStand BlazorUI</Product>
+	<ProductName>TestStand Blazor UI</ProductName>
 	<Company>National Instruments</Company>
 	<Copyright>Copyright (c) National Instruments Corporation. All Rights Reserved.</Copyright>
-	<AssemblyTitle>TestStand Web Operator Interface</AssemblyTitle>
-	<Description>TestStand Web Operator Interface</Description>
+	<AssemblyTitle>TestStand Blazor User Interface</AssemblyTitle>
+	<Description>TestStand Blazor User Interface</Description>
   </PropertyGroup>
   <ItemGroup>
 	<PackageReference Include="NimbleBlazor" />
@@ -18,7 +18,7 @@
   </ItemGroup>
   <ItemGroup>
 	<ProjectReference Include="..\Controls\Controls.csproj" />
-	<ProjectReference Include="..\WebOIUtilities\WebOIUtilities.csproj" />
+	<ProjectReference Include="..\BlazorOIUtilities\BlazorOIUtilities.csproj" />
   </ItemGroup>
   <ItemGroup>
 	<Folder Include="wwwroot\icons\SequencesIcons\" />

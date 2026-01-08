@@ -1,4 +1,4 @@
-﻿namespace NationalInstruments.TestStand.WebOI.UI.Services.Events
+﻿namespace NationalInstruments.TestStand.BlazorOI.UI.Services.Events
 {
     /// <summary>
     /// Encapsulates the information for the InvokeInfoBanner event.

@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using NationalInstruments.Sequencing.V2;
-using NationalInstruments.TestStand.WebOI.SharedDomain;
-using NationalInstruments.TestStand.WebOI.SharedDomain.Models;
-using NationalInstruments.TestStand.WebOI.UI.Services;
-using NationalInstruments.TestStand.WebOI.UI.Services.Events;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain;
+using NationalInstruments.TestStand.BlazorOI.SharedDomain.Models;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
 using NimbleBlazor;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Components
+namespace NationalInstruments.TestStand.BlazorOI.UI.Components
 {
     /// <summary>
     /// Represents the execution steps Pane component on the right bar of the application window.

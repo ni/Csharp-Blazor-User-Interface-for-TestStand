@@ -1,4 +1,4 @@
-﻿namespace NationalInstruments.TestStand.WebOI.UI.Services.Events
+﻿namespace NationalInstruments.TestStand.BlazorOI.UI.Services.Events
 {
     internal sealed class ExecutionResultUpdateEventArgs(int executionId, string executionResultStatus) : EventArgs
     {

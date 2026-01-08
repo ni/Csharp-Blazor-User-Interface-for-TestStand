@@ -1,4 +1,4 @@
-namespace NationalInstruments.TestStand.WebOI.Utilities.Discovery
+namespace NationalInstruments.TestStand.BlazorOI.Utilities.Discovery
 {
     /// <summary>
     /// Constants used for services.

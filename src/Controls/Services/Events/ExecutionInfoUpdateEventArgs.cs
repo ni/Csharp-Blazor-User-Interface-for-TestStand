@@ -1,6 +1,6 @@
 ﻿using NationalInstruments.Sequencing.V2;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services.Events
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services.Events
 {
     /// <summary>
     /// Encapsulates information about execution info updates.

@@ -1,6 +1,6 @@
-﻿using NationalInstruments.TestStand.WebOI.UI.Services.Events;
+﻿using NationalInstruments.TestStand.BlazorOI.UI.Services.Events;
 
-namespace NationalInstruments.TestStand.WebOI.UI.Services
+namespace NationalInstruments.TestStand.BlazorOI.UI.Services
 {
     /// <summary>
     /// Service for handling the application state.

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Server.Circuits;
-using NationalInstruments.TestStand.WebOI.UI.Services;
+using NationalInstruments.TestStand.BlazorOI.UI.Services;
 
-namespace NationalInstruments.TestStand.WebOI.WebServer
+namespace NationalInstruments.TestStand.BlazorOI.WebServer
 {
     internal sealed class ConnectionCircuitHandler(
         IServiceProvider serviceProvider) : CircuitHandler
