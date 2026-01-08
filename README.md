@@ -9,8 +9,8 @@ For more details on TestStand user interfaces & best practices, refer [here](htt
 
 - Install TestStand 2025 or later in your machine and license it.
 - Install the `Sequencing Service` and `TestStand BlazorUI` application in your machine using the latest installers provided in the [release page](https://github.com/ni/Csharp-Blazor-User-Interface-for-TestStand/releases).
-- After installing Sequencing Service, open TestStand Version Selector and verify that it shows the previously installed version of TestStand as active TestStand version. Else, switch to that version.
 - Restart the machine.
+- Open TestStand Version Selector and verify that it shows the previously installed version of TestStand as active TestStand version. Else, switch to that version.
 - Now, open `TestStandBlazorUI.exe` from Start menu or from the installed location `C:\Program Files\National Instruments\TestStand\Blazor UI`
 
 ## Default Credentials
