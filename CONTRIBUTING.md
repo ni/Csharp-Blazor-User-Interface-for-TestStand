@@ -13,9 +13,9 @@ To submit changes to TestStand Blazor UI, the first step is to build the repo wh
 ## Setting up backend dependencies
 - Install TestStand 2025 Q3 or later and license the product.
 - Install Sequencing Service package, from the release page.
-- After installing Sequencing Service, open TestStand Version Selector and verify that it shows the previously installed version of TestStand as active TestStand version.
-- If not, set the active version to the installed TestStand version.
 - Restart the machine.
+- Open TestStand Version Selector and verify that it shows the previously installed version of TestStand as active TestStand version.
+- If not, set the active version to the installed TestStand version.
 
 ## Building and running the application
 
