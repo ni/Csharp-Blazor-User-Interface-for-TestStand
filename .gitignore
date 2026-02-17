@@ -367,3 +367,7 @@ FodyWeavers.xsd
 /Tests/bin
 /Tests/publishLinux
 /Tests/publishWin
+
+# Including Local Libraries
+!/libs/NationalInstruments.Service.Extensions.9.16.0.49980.nupkg
+!/libs/NI.Discovery.V1.Client.9.16.0.49981.nupkg
