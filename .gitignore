@@ -371,3 +371,6 @@ FodyWeavers.xsd
 # Including Local Libraries
 !/libs/NationalInstruments.Service.Extensions.9.16.0.49980.nupkg
 !/libs/NI.Discovery.V1.Client.9.16.0.49981.nupkg
+!/libs/NI.Discovery.V1.Api.9.16.0.49981.nupkg
+!/libs/NationalInstruments.APIs.25.3.1.nupkg
+!/libs/NationalInstruments.Api.Extensions.9.16.0.49981.nupkg
