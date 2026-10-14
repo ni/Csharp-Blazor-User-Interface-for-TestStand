@@ -1,4 +1,12 @@
-# Csharp (Blazor) User Interface for TestStand - Early Access Release
+# Csharp (Blazor) User Interface for TestStand
+
+> [!IMPORTANT]
+>
+> The TestStand Blazor UI is now officially released as part of **TestStand 2026 Q3**. For official documentation, refer to [TestStand Blazor User Interface](https://www.ni.com/docs/en-US/bundle/teststand-api-ref/page/tsref/teststand-blazor-user-interface.html) on ni.com.
+>
+> **TestStand 26Q3 or later** includes the full source code for the TestStand Blazor UI, as well as the latest Sequencing Service. After installing TestStand, you can find the source in the `<TestStand Public>\TestStand <version>\UserInterfaces\Full-Featured\CSharp (Blazor)` directory, so that you can fully customize the application to suit your testing needs.
+>
+> This repository was used for the early access release. It is retained only for reference; use the source shipped with TestStand for the latest, supported version.
 
 This solution provides a modern-looking, scalable and maintainable User Interface for TestStand. A TestStand User Interface is an application that provides a graphical interface for executing tests at a production station, to monitor, debug and control execution of TestStand sequences. You can modify the source code and customize the user interface to suit your specific testing needs.
 
